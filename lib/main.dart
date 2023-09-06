@@ -5,6 +5,8 @@ import 'package:dnd_app/presentation/large_layout/spell_details_view.dart';
 import 'package:dnd_app/spells_data_source.dart';
 import 'package:flutter/material.dart';
 
+import 'presentation/my_theme.dart';
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -24,8 +26,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: AllSpellsView(),
+    return MaterialApp(
+      theme: theme,
+      home: const AllSpellsView(),
     );
   }
 }
