@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dnd_app/entities/spell_entity.dart';
 import 'package:dnd_app/spells_data_source.dart';
 import 'package:flutter/material.dart';
 
@@ -36,11 +37,11 @@ class AllSpellsView extends StatefulWidget {
 }
 
 class _AllSpellsViewState extends State<AllSpellsView> {
-  late final Future<List<String>> spells;
+  late final Future<List<SpellEntity>> spells;
 
   @override
   void initState() {
-    spells = SpellsDataSource().getAllSpellNames();
+    spells = SpellsDataSource().getSpells();
     super.initState();
   }
 
@@ -57,7 +58,7 @@ class _AllSpellsViewState extends State<AllSpellsView> {
                 itemBuilder: (context, index) => ListTile(
                   onTap: () {},
                   title: Text(
-                    snapshot.data![index],
+                    snapshot.data![index].name,
                   ),
                 ),
               );

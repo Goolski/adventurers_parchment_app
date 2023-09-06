@@ -1,22 +1,21 @@
 import 'package:dio/dio.dart';
+import 'package:dnd_app/entities/spell_entity.dart';
 
 const apiPath = 'https://www.dnd5eapi.co/api';
 
 class SpellsDataSource {
   final _dio = Dio();
 
-  Future<List<String>> getAllSpellNames() async {
+  Future<List<SpellEntity>> getSpells() async {
     final response = await _dio.get(
-      apiPath + '/spells',
+      '$apiPath/spells',
       options: Options(
         responseType: ResponseType.json,
       ),
     );
-    // final json = response.data.toString();
-    // Map<String, dynamic> data = jsonDecode(response.data);
     List<dynamic> results = response.data["results"];
-    List<String> names =
-        results.map((result) => result["name"] as String).toList();
-    return names;
+    final spells =
+        results.map((spellJson) => SpellEntity.fromJson(spellJson)).toList();
+    return spells;
   }
 }
