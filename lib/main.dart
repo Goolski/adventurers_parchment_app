@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dnd_app/entities/spell_entity.dart';
+import 'package:dnd_app/presentation/large_layout/spell_details_view.dart';
 import 'package:dnd_app/spells_data_source.dart';
 import 'package:flutter/material.dart';
 
@@ -72,14 +73,22 @@ class _AllSpellsViewState extends State<AllSpellsView> {
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) => ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => SpellDetailsView(
+                                spell: snapshot.data![index],
+                              ),
+                            ),
+                          );
+                        },
                         title: Text(
                           snapshot.data![index].name,
                         ),
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }

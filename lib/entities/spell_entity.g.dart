@@ -23,9 +23,7 @@ SpellEntityWithDetails _$SpellEntityWithDetailsFromJson(
         Map<String, dynamic> json) =>
     SpellEntityWithDetails(
       range: json['range'] as String,
-      description: (json['description'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      desc: (json['desc'] as List<dynamic>).map((e) => e as String).toList(),
       components: (json['components'] as List<dynamic>)
           .map((e) => $enumDecode(_$SpellComponentEnumMap, e))
           .toSet(),
@@ -43,7 +41,7 @@ Map<String, dynamic> _$SpellEntityWithDetailsToJson(
       'name': instance.name,
       'url': instance.url,
       'range': instance.range,
-      'description': instance.description,
+      'desc': instance.desc,
       'components':
           instance.components.map((e) => _$SpellComponentEnumMap[e]!).toList(),
       'level': instance.level,

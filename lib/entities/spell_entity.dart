@@ -23,14 +23,14 @@ class SpellEntity {
 @JsonSerializable()
 class SpellEntityWithDetails extends SpellEntity {
   final String range;
-  final List<String> description;
+  final List<String> desc;
   final Set<SpellComponent> components;
   final int level;
   final String duration;
 
   SpellEntityWithDetails({
     required this.range,
-    required this.description,
+    required this.desc,
     required this.components,
     required this.level,
     required this.duration,
