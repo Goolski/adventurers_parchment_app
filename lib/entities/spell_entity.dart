@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'spell_entity.g.dart';
+
+@JsonSerializable()
 class SpellEntity {
   final String index;
   final String name;
@@ -8,4 +13,9 @@ class SpellEntity {
     required this.name,
     required this.url,
   });
+
+  Map<String, dynamic> toJson() => _$SpellEntityToJson(this);
+
+  factory SpellEntity.fromJson(Map<String, dynamic> json) =>
+      _$SpellEntityFromJson(json);
 }
