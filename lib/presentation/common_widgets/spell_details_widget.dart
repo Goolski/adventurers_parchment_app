@@ -35,33 +35,16 @@ class SpellDetailsWidget extends StatelessWidget {
                 )
               ],
             ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Text(
-                      spell.range,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Text(
-                      spell.duration,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: SpellComponentsWidget(components: spell.components),
-                  ),
-                ],
-              ),
+            GridView.count(
+              crossAxisCount: 3,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                SpellRangeWidget(spell: spell),
+                SpellDurationWidget(spell: spell),
+                SpellComponentsWidget(components: spell.components),
+              ],
             ),
-            const Divider(),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -79,6 +62,49 @@ class SpellDetailsWidget extends StatelessWidget {
   }
 }
 
+class SpellDurationWidget extends StatelessWidget {
+  const SpellDurationWidget({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text('Duration'),
+        Text(spell.duration),
+      ],
+    );
+  }
+}
+
+class SpellRangeWidget extends StatelessWidget {
+  const SpellRangeWidget({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text('Range'),
+        Text(
+          spell.range,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
 class SpellComponentsWidget extends StatelessWidget {
   final Set<SpellComponent> components;
   const SpellComponentsWidget({
@@ -88,18 +114,24 @@ class SpellComponentsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (components.contains(SpellComponent.verbal)) ...[
-          Text('V'),
-          SizedBox(width: 8)
-        ],
-        if (components.contains(SpellComponent.somatic)) ...[
-          Text('S'),
-          SizedBox(width: 8)
-        ],
-        if (components.contains(SpellComponent.material)) ...[Text('M')],
+        const Text('Components'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (components.contains(SpellComponent.verbal)) ...[
+              Text('V'),
+              SizedBox(width: 8)
+            ],
+            if (components.contains(SpellComponent.somatic)) ...[
+              Text('S'),
+              SizedBox(width: 8)
+            ],
+            if (components.contains(SpellComponent.material)) ...[Text('M')],
+          ],
+        ),
       ],
     );
   }
