@@ -47,28 +47,47 @@ class _AllSpellsViewState extends State<AllSpellsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: FutureBuilder(
-          future: spells,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) => ListTile(
-                  onTap: () {},
-                  title: Text(
-                    snapshot.data![index].name,
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+    return SafeArea(
+      child: Row(
+        children: [
+          NavigationRail(
+            destinations: const [
+              NavigationRailDestination(
+                icon: Icon(Icons.list),
+                label: Text('All spells'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.favorite),
+                label: Text('Favorite spells'),
+              )
+            ],
+            selectedIndex: 0,
+          ),
+          Expanded(
+            child: Scaffold(
+              body: FutureBuilder(
+                future: spells,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) => ListTile(
+                        onTap: () {},
+                        title: Text(
+                          snapshot.data![index].name,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
