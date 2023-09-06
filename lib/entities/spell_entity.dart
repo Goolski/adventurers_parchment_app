@@ -19,3 +19,38 @@ class SpellEntity {
   factory SpellEntity.fromJson(Map<String, dynamic> json) =>
       _$SpellEntityFromJson(json);
 }
+
+@JsonSerializable()
+class SpellEntityWithDetails extends SpellEntity {
+  final String range;
+  final List<String> description;
+  final Set<SpellComponent> components;
+  final int level;
+  final String duration;
+
+  SpellEntityWithDetails({
+    required this.range,
+    required this.description,
+    required this.components,
+    required this.level,
+    required this.duration,
+    required super.index,
+    required super.name,
+    required super.url,
+  });
+
+  factory SpellEntityWithDetails.fromJson(Map<String, dynamic> json) =>
+      _$SpellEntityWithDetailsFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$SpellEntityWithDetailsToJson(this);
+}
+
+enum SpellComponent {
+  @JsonValue('V')
+  verbal,
+  @JsonValue('S')
+  somatic,
+  @JsonValue('M')
+  material,
+}
