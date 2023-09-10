@@ -18,6 +18,9 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   google_fonts: ^5.1.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
 
 dev_dependencies:
   flutter_test:
@@ -25,8 +28,7 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
   build_runner: ^2.4.6
+  hive_generator: ^2.0.1
 
 flutter:
   uses-material-design: true
-
-  #
