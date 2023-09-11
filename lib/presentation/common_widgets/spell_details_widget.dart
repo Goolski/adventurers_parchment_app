@@ -37,7 +37,7 @@ class SpellDetailsWidget extends StatelessWidget {
                 Positioned(
                   right: 10,
                   bottom: 10,
-                  child: FavoriteSpellButtonWidget(),
+                  child: FavoriteSpellButtonWidget(spell: spell),
                 )
               ],
             ),

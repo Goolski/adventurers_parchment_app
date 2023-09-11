@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'spell_entity.g.dart';
 
 @JsonSerializable()
-class SpellEntity {
+class SpellEntity extends Equatable {
   final String index;
   final String name;
   final String url;
@@ -18,6 +19,9 @@ class SpellEntity {
 
   factory SpellEntity.fromJson(Map<String, dynamic> json) =>
       _$SpellEntityFromJson(json);
+
+  @override
+  List<Object?> get props => [index];
 }
 
 @JsonSerializable()
