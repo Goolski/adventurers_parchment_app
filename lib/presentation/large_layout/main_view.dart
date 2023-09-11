@@ -1,3 +1,4 @@
+import 'package:dnd_app/presentation/large_layout/favorite_spells_view.dart';
 import 'package:flutter/material.dart';
 
 import 'all_spells_view.dart';
@@ -40,11 +41,20 @@ class _MainViewState extends State<MainView> {
           ],
           selectedIndex: navigationState.index,
         ),
-        const Expanded(
-          child: AllSpellsView(),
-        ),
+        Expanded(
+          child: getCurrentNavigationWidget(),
+        )
       ],
     );
+  }
+
+  Widget getCurrentNavigationWidget() {
+    switch (navigationState) {
+      case MainViewState.allSpells:
+        return const AllSpellsView();
+      case MainViewState.favoriteSpells:
+        return const FavoriteSpellsView();
+    }
   }
 
   void onDestinationSelected(int value) {
