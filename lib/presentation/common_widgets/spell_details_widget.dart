@@ -1,4 +1,5 @@
 import 'package:dnd_app/entities/spell_entity.dart';
+import 'package:dnd_app/presentation/common_widgets/favorite_spell_button_widget.dart';
 import 'package:flutter/material.dart';
 
 class SpellDetailsWidget extends StatelessWidget {
@@ -36,12 +37,7 @@ class SpellDetailsWidget extends StatelessWidget {
                 Positioned(
                   right: 10,
                   bottom: 10,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite,
-                    ),
-                  ),
+                  child: FavoriteSpellButtonWidget(),
                 )
               ],
             ),

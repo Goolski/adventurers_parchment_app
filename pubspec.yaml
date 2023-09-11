@@ -21,6 +21,8 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   kiwi: ^4.1.0
+  provider: ^6.0.5
+  collection: ^1.17.1
 
 
 dev_dependencies:
