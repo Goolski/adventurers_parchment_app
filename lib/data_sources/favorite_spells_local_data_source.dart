@@ -28,9 +28,22 @@ class FavoriteSpellsLocalDataSource {
 
   Future<Stream<Set<SpellEntity>>> getAllFavoriteSpellsStream() async {
     final box = await Hive.openBox(favoriteSpellsBox);
-    return box.watch(key: favoriteSpellsKey).asyncMap(
+
+    final currentSpells = await _getFavoriteSpells();
+    final BehaviorSubject<Set<SpellEntity>> behaviorSubject =
+        BehaviorSubject.seeded(currentSpells);
+
+    final streamSub = box
+        .watch(key: favoriteSpellsKey)
+        .asyncMap(
           (event) => _decodeSpells(event.value),
-        );
+        )
+        .doOnData((event) {
+      behaviorSubject.add(event);
+    }).listen((event) {});
+
+    behaviorSubject.doOnCancel(() => streamSub.cancel());
+    return behaviorSubject.stream;
   }
 
   Future<Stream<SpellEntity?>> getSingleFavouriteSpellStream(
