@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:dnd_app/entities/spell_entity.dart';
 import 'package:dnd_app/presentation/large_layout/spell_details_view.dart';
-import 'package:dnd_app/spells_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'data_sources/spells_data_source.dart';
+import 'di/di.dart';
 import 'presentation/my_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -19,6 +20,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() {
   Hive.initFlutter();
+  Injector.setup();
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }

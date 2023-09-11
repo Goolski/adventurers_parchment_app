@@ -1,7 +1,8 @@
 import 'package:dnd_app/entities/spell_entity.dart';
 import 'package:dnd_app/presentation/common_widgets/spell_details_widget.dart';
-import 'package:dnd_app/spells_data_source.dart';
 import 'package:flutter/material.dart';
+
+import '../../data_sources/spells_data_source.dart';
 
 class SpellDetailsView extends StatefulWidget {
   final SpellEntity spell;
