@@ -3,6 +3,7 @@ import 'package:dnd_app/presentation/common_widgets/spell_details_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_sources/spells_data_source.dart';
+import '../../di/di.dart';
 
 class SpellDetailsView extends StatefulWidget {
   final SpellEntity spell;
@@ -20,7 +21,8 @@ class _SpellDetailsViewState extends State<SpellDetailsView> {
 
   @override
   void initState() {
-    spellFuture = SpellsDataSource().getDetailsForSpell(spell: widget.spell);
+    spellFuture = Injector.resolve<SpellsDataSource>()
+        .getDetailsForSpell(spell: widget.spell);
     super.initState();
   }
 

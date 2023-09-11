@@ -1,10 +1,23 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:dnd_app/entities/spell_entity.dart';
 
 const apiPath = 'https://www.dnd5eapi.co';
 
 class SpellsDataSource {
-  final _dio = Dio();
+  final Dio _dio;
+
+  SpellsDataSource()
+      : _dio = Dio()
+          ..interceptors.add(
+            DioCacheInterceptor(
+              options: CacheOptions(
+                store: HiveCacheStore(null),
+                policy: CachePolicy.request,
+              ),
+            ),
+          );
 
   Future<List<SpellEntity>> getSpells() async {
     final response = await _dio.get(

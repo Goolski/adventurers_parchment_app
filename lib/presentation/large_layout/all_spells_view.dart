@@ -2,6 +2,7 @@ import 'package:dnd_app/presentation/common_widgets/spell_list_tile_widget.dart'
 import 'package:flutter/material.dart';
 
 import '../../data_sources/spells_data_source.dart';
+import '../../di/di.dart';
 import '../../entities/spell_entity.dart';
 
 class AllSpellsView extends StatefulWidget {
@@ -16,7 +17,7 @@ class _AllSpellsViewState extends State<AllSpellsView> {
 
   @override
   void initState() {
-    spells = SpellsDataSource().getSpells();
+    spells = Injector.resolve<SpellsDataSource>().getSpells();
     super.initState();
   }
 

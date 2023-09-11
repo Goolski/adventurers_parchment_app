@@ -1,6 +1,5 @@
+import 'package:dnd_app/data_sources/spells_data_source.dart';
 import 'package:kiwi/kiwi.dart';
-
-import '../data_sources/favorite_spells_local_data_source.dart';
 
 part 'di.g.dart';
 
@@ -11,7 +10,7 @@ abstract class Injector {
     _$Injector().configure();
   }
 
-  @Register.factory(FavoriteSpellsLocalDataSource)
+  @Register.factory(SpellsDataSource)
   void configure();
 
   static final resolve = container.resolve;
