@@ -32,6 +32,16 @@ class SpellDetailsWidget extends StatelessWidget {
                       spell.level.toString(),
                     ),
                   ),
+                ),
+                Positioned(
+                  right: 10,
+                  bottom: 10,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite,
+                    ),
+                  ),
                 )
               ],
             ),
