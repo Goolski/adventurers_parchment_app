@@ -64,7 +64,7 @@ class AllSpellsViewController extends ChangeNotifier {
   Future<void> _init() async {
     try {
       await getSpells();
-    } catch (_) {
+    } catch (e) {
       showErrorMessage('Error');
     }
   }

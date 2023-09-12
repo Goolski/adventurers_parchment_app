@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:dnd_app/entities/spell_entity.dart';
 
 const apiPath = 'https://www.dnd5eapi.co';
@@ -17,7 +18,19 @@ class SpellsDataSource {
                 policy: CachePolicy.request,
               ),
             ),
-          );
+          ) {
+    _dio.interceptors.add(
+      RetryInterceptor(
+        dio: _dio,
+        retries: 3,
+        retryDelays: const [
+          Duration(seconds: 1),
+          Duration(seconds: 2),
+          Duration(seconds: 3),
+        ],
+      ),
+    );
+  }
 
   Future<List<SpellEntity>> getSpells() async {
     final response = await _dio.get(
