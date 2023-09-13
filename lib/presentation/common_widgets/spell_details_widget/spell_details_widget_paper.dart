@@ -1,3 +1,4 @@
+import 'package:dnd_app/presentation/common_widgets/art_deco_border_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
@@ -17,28 +18,33 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
           children: [
             Background(),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SpellNameWidget(spell: spell),
-                  GridView.count(
-                    crossAxisCount: 3,
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
+              padding: const EdgeInsets.all(8.0),
+              child: ArtDecoBorderWidget(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 16,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SpellRangeWidget(spell: spell),
-                      SpellDurationWidget(spell: spell),
-                      SpellComponentsWidget(components: spell.components),
+                      SpellNameWidget(spell: spell),
+                      GridView.count(
+                        crossAxisCount: 3,
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        children: [
+                          SpellRangeWidget(spell: spell),
+                          SpellDurationWidget(spell: spell),
+                          SpellComponentsWidget(components: spell.components),
+                        ],
+                      ),
+                      Expanded(
+                        child: SpellDescriptionWidget(spell: spell),
+                      ),
                     ],
                   ),
-                  Expanded(
-                    child: SpellDescriptionWidget(spell: spell),
-                  ),
-                ],
+                ),
               ),
             ),
           ],
