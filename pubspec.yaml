@@ -46,3 +46,4 @@ flutter:
   assets:
     - assets/paper.jpg
     - assets/border.png
+    - assets/noise.png

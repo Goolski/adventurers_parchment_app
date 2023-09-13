@@ -16,37 +16,37 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            Background(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ArtDecoBorderWidget(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SpellNameWidget(spell: spell),
-                      GridView.count(
-                        crossAxisCount: 3,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        children: [
-                          SpellRangeWidget(spell: spell),
-                          SpellDurationWidget(spell: spell),
-                          SpellComponentsWidget(components: spell.components),
-                        ],
-                      ),
-                      Expanded(
-                        child: SpellDescriptionWidget(spell: spell),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            TestBackground(),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: ArtDecoBorderWidget(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(
+            //         horizontal: 8,
+            //         vertical: 16,
+            //       ),
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           SpellNameWidget(spell: spell),
+            //           GridView.count(
+            //             crossAxisCount: 3,
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             children: [
+            //               SpellRangeWidget(spell: spell),
+            //               SpellDurationWidget(spell: spell),
+            //               SpellComponentsWidget(components: spell.components),
+            //             ],
+            //           ),
+            //           Expanded(
+            //             child: SpellDescriptionWidget(spell: spell),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -110,6 +110,32 @@ class SpellLevelWidget extends StatelessWidget {
       foregroundColor: Theme.of(context).colorScheme.onSurface,
       child: Text(
         spell.level.toString(),
+      ),
+    );
+  }
+}
+
+class TestBackground extends StatelessWidget {
+  const TestBackground({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image(
+              image: AssetImage('assets/paper.jpg'),
+              fit: BoxFit.cover,
+            ),
+            Image(
+              image: AssetImage('assets/noise.png'),
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
       ),
     );
   }
