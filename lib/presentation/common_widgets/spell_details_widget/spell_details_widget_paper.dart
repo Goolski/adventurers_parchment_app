@@ -1,7 +1,10 @@
-import 'package:dnd_app/presentation/common_widgets/art_deco_border_widget.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:dnd_app/presentation/common_widgets/masked_image_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
+import '../art_deco_border_widget.dart';
 
 class SpellDetailsWidgetPaper extends StatelessWidget {
   final SpellEntityWithDetails spell;
@@ -13,40 +16,59 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 9 / 16,
       child: Card(
+        elevation: 8,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            TestBackground(),
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: ArtDecoBorderWidget(
-            //     child: Padding(
-            //       padding: const EdgeInsets.symmetric(
-            //         horizontal: 8,
-            //         vertical: 16,
-            //       ),
-            //       child: Column(
-            //         crossAxisAlignment: CrossAxisAlignment.start,
-            //         children: [
-            //           SpellNameWidget(spell: spell),
-            //           GridView.count(
-            //             crossAxisCount: 3,
-            //             scrollDirection: Axis.vertical,
-            //             shrinkWrap: true,
-            //             children: [
-            //               SpellRangeWidget(spell: spell),
-            //               SpellDurationWidget(spell: spell),
-            //               SpellComponentsWidget(components: spell.components),
-            //             ],
-            //           ),
-            //           Expanded(
-            //             child: SpellDescriptionWidget(spell: spell),
-            //           ),
-            //         ],
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            Background(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: MaskedImageWidget(
+                image: AssetImage('assets/noise.png'),
+                blendMode: BlendMode.dstIn,
+                child: Body(spell: spell),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Body extends StatelessWidget {
+  const Body({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return ArtDecoBorderWidget(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 16,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SpellNameWidget(spell: spell),
+            GridView.count(
+              crossAxisCount: 3,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                SpellRangeWidget(spell: spell),
+                SpellDurationWidget(spell: spell),
+                SpellComponentsWidget(components: spell.components),
+              ],
+            ),
+            Expanded(
+              child: SpellDescriptionWidget(spell: spell),
+            ),
           ],
         ),
       ),
@@ -110,32 +132,6 @@ class SpellLevelWidget extends StatelessWidget {
       foregroundColor: Theme.of(context).colorScheme.onSurface,
       child: Text(
         spell.level.toString(),
-      ),
-    );
-  }
-}
-
-class TestBackground extends StatelessWidget {
-  const TestBackground({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Image(
-              image: AssetImage('assets/paper.jpg'),
-              fit: BoxFit.cover,
-            ),
-            Image(
-              image: AssetImage('assets/noise.png'),
-              fit: BoxFit.cover,
-            ),
-          ],
-        ),
       ),
     );
   }
