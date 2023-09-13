@@ -53,7 +53,13 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget> {
         child: widget.child,
       );
     } else {
-      return widget.child;
+      return const SizedBox.shrink();
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.image.evict();
   }
 }
