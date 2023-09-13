@@ -1,9 +1,9 @@
 import 'package:dnd_app/entities/spell_entity.dart';
-import 'package:dnd_app/presentation/common_widgets/spell_details_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_sources/spells_data_source.dart';
 import '../../di/di.dart';
+import '../common_widgets/spell_details_widget/spell_details_widget_paper.dart';
 
 class SpellDetailsView extends StatefulWidget {
   final SpellEntity spell;
@@ -39,7 +39,7 @@ class _SpellDetailsViewState extends State<SpellDetailsView> {
             return Padding(
               padding: const EdgeInsets.all(32),
               child: Center(
-                child: SpellDetailsWidget(spell: snapshot.data!),
+                child: SpellDetailsWidgetPaper(spell: snapshot.data!),
               ),
             );
           } else {
