@@ -13,48 +13,63 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 9 / 16,
       child: Card(
-        child: Column(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Stack(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image(
+                  image: AssetImage('assets/paper.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Column(
               children: [
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    foregroundColor: Theme.of(context).colorScheme.onSurface,
-                    child: Text(
-                      spell.level.toString(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Positioned(
+                      right: 10,
+                      top: 10,
+                      child: CircleAvatar(
+                        backgroundColor: Theme.of(context).colorScheme.surface,
+                        foregroundColor:
+                            Theme.of(context).colorScheme.onSurface,
+                        child: Text(
+                          spell.level.toString(),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 10,
+                      bottom: 10,
+                      child: FavoriteSpellButtonWidget(spell: spell),
+                    )
+                  ],
+                ),
+                GridView.count(
+                  crossAxisCount: 3,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  children: [
+                    SpellRangeWidget(spell: spell),
+                    SpellDurationWidget(spell: spell),
+                    SpellComponentsWidget(components: spell.components),
+                  ],
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        spell.desc.join("\n\n"),
+                      ),
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 10,
-                  bottom: 10,
-                  child: FavoriteSpellButtonWidget(spell: spell),
-                )
               ],
-            ),
-            GridView.count(
-              crossAxisCount: 3,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: [
-                SpellRangeWidget(spell: spell),
-                SpellDurationWidget(spell: spell),
-                SpellComponentsWidget(components: spell.components),
-              ],
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    spell.desc.join("\n\n"),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
