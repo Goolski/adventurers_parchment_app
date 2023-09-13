@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
-import '../favorite_spell_button_widget.dart';
 
 class SpellDetailsWidgetPaper extends StatelessWidget {
   final SpellEntityWithDetails spell;
@@ -16,62 +15,113 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         child: Stack(
           children: [
-            Positioned.fill(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image(
-                  image: AssetImage('assets/paper.jpg'),
-                  fit: BoxFit.cover,
-                ),
+            Background(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SpellNameWidget(spell: spell),
+                  GridView.count(
+                    crossAxisCount: 3,
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    children: [
+                      SpellRangeWidget(spell: spell),
+                      SpellDurationWidget(spell: spell),
+                      SpellComponentsWidget(components: spell.components),
+                    ],
+                  ),
+                  Expanded(
+                    child: SpellDescriptionWidget(spell: spell),
+                  ),
+                ],
               ),
             ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Positioned(
-                      right: 10,
-                      top: 10,
-                      child: CircleAvatar(
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onSurface,
-                        child: Text(
-                          spell.level.toString(),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 10,
-                      bottom: 10,
-                      child: FavoriteSpellButtonWidget(spell: spell),
-                    )
-                  ],
-                ),
-                GridView.count(
-                  crossAxisCount: 3,
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  children: [
-                    SpellRangeWidget(spell: spell),
-                    SpellDurationWidget(spell: spell),
-                    SpellComponentsWidget(components: spell.components),
-                  ],
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        spell.desc.join("\n\n"),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SpellNameWidget extends StatelessWidget {
+  const SpellNameWidget({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      spell.name,
+      style: Theme.of(context).textTheme.headlineSmall,
+      textAlign: TextAlign.start,
+    );
+  }
+}
+
+class SpellDescriptionWidget extends StatelessWidget {
+  const SpellDescriptionWidget({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          spell.desc.join("\n\n"),
+          textAlign: TextAlign.justify,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.4),
+        ),
+      ),
+    );
+  }
+}
+
+class SpellLevelWidget extends StatelessWidget {
+  const SpellLevelWidget({
+    super.key,
+    required this.spell,
+  });
+
+  final SpellEntityWithDetails spell;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      foregroundColor: Theme.of(context).colorScheme.onSurface,
+      child: Text(
+        spell.level.toString(),
+      ),
+    );
+  }
+}
+
+class Background extends StatelessWidget {
+  const Background({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fill(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image(
+          image: AssetImage('assets/paper.jpg'),
+          fit: BoxFit.cover,
         ),
       ),
     );
