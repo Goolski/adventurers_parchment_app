@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
 import '../art_deco_border_widget.dart';
+import '../masked_gif_image_widget.dart';
 
 class SpellDetailsWidgetPaper extends StatelessWidget {
   final SpellEntityWithDetails spell;
@@ -23,8 +24,8 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
             Background(),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: MaskedImageWidget(
-                image: AssetImage('assets/noise.png'),
+              child: MaskedGifImageWidget(
+                image: AssetImage('assets/noise.gif'),
                 blendMode: BlendMode.dstIn,
                 child: Body(spell: spell),
               ),
