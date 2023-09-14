@@ -33,7 +33,7 @@ class MainMenuView extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.go('/spells/favorite'),
                 child: Text(
                   'Your favorite spells?',
                   style: textButtonTextStyle,
