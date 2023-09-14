@@ -32,6 +32,12 @@ SpellEntityWithDetails _$SpellEntityWithDetailsFromJson(
       index: json['index'] as String,
       name: json['name'] as String,
       url: json['url'] as String,
+      castingTime: json['casting_time'] as String,
+      concentration: json['concentration'] as bool,
+      school: SchoolEntity.fromJson(json['school'] as Map<String, dynamic>),
+      characterClass: (json['classes'] as List<dynamic>)
+          .map((e) => CharacterClassEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$SpellEntityWithDetailsToJson(
@@ -46,6 +52,10 @@ Map<String, dynamic> _$SpellEntityWithDetailsToJson(
           instance.components.map((e) => _$SpellComponentEnumMap[e]!).toList(),
       'level': instance.level,
       'duration': instance.duration,
+      'casting_time': instance.castingTime,
+      'concentration': instance.concentration,
+      'school': instance.school,
+      'classes': instance.characterClass,
     };
 
 const _$SpellComponentEnumMap = {

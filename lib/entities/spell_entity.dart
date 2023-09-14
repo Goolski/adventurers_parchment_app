@@ -1,5 +1,8 @@
+import 'package:dnd_app/entities/character_class_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'school_entity.dart';
 
 part 'spell_entity.g.dart';
 
@@ -31,6 +34,13 @@ class SpellEntityWithDetails extends SpellEntity {
   final Set<SpellComponent> components;
   final int level;
   final String duration;
+  @JsonKey(name: 'casting_time')
+  final String castingTime;
+  final bool concentration;
+  @JsonKey(name: 'school')
+  final SchoolEntity school;
+  @JsonKey(name: 'classes')
+  final List<CharacterClassEntity> characterClass;
 
   SpellEntityWithDetails({
     required this.range,
@@ -41,6 +51,10 @@ class SpellEntityWithDetails extends SpellEntity {
     required super.index,
     required super.name,
     required super.url,
+    required this.castingTime,
+    required this.concentration,
+    required this.school,
+    required this.characterClass,
   });
 
   factory SpellEntityWithDetails.fromJson(Map<String, dynamic> json) =>
