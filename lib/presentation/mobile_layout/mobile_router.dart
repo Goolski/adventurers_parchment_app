@@ -10,16 +10,23 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => MainMenuView(),
+          pageBuilder: (context, state) => NoTransitionPage(
+            child: MainMenuView(),
+          ),
+          // builder: (context, state) => MainMenuView(),
           routes: [
             GoRoute(
               path: 'spells',
-              builder: (context, state) => AllSpellsMobileView(),
+              pageBuilder: (context, state) => NoTransitionPage(
+                child: AllSpellsMobileView(),
+              ),
               routes: [
                 GoRoute(
                   path: ':spellId',
-                  builder: (context, state) => SpellDetailsView(
-                    spellIndex: state.pathParameters['spellId']!,
+                  pageBuilder: (context, state) => NoTransitionPage(
+                    child: SpellDetailsView(
+                      spellIndex: state.pathParameters['spellId']!,
+                    ),
                   ),
                 ),
               ],
