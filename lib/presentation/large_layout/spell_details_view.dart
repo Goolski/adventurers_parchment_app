@@ -6,10 +6,10 @@ import '../../di/di.dart';
 import '../common_widgets/spell_details_widget/spell_details_widget_paper.dart';
 
 class SpellDetailsView extends StatefulWidget {
-  final SpellEntity spell;
+  final String spellIndex;
   const SpellDetailsView({
     super.key,
-    required this.spell,
+    required this.spellIndex,
   });
 
   @override
@@ -22,33 +22,28 @@ class _SpellDetailsViewState extends State<SpellDetailsView> {
   @override
   void initState() {
     spellFuture = Injector.resolve<SpellsDataSource>()
-        .getDetailsForSpell(spell: widget.spell);
+        .getDetailsForSpellByIndex(spellIndex: widget.spellIndex);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.spell.name),
-      ),
-      body: FutureBuilder(
-        future: spellFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Padding(
-              padding: const EdgeInsets.all(32),
-              child: Center(
-                child: SpellDetailsWidgetPaper(spell: snapshot.data!),
-              ),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+    return FutureBuilder(
+      future: spellFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: SpellDetailsWidgetPaper(spell: snapshot.data!),
+            ),
+          );
+        } else {
+          return const Center(
+            child: SizedBox.shrink(),
+          );
+        }
+      },
     );
   }
 }

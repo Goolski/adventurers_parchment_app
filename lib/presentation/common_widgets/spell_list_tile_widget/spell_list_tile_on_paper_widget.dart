@@ -26,7 +26,7 @@ class SpellListTileOnPaperWidget extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => SpellDetailsView(
-          spell: spell,
+          spellIndex: spell.index,
         ),
       ),
     );

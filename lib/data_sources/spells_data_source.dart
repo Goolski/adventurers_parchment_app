@@ -45,6 +45,20 @@ class SpellsDataSource {
     return spells;
   }
 
+  Future<SpellEntity> getSpellById({required String index}) async {
+    final spells = await getSpells();
+    return spells.firstWhere(
+      (spell) => spell.index == index,
+    );
+  }
+
+  Future<SpellEntityWithDetails> getDetailsForSpellByIndex(
+      {required String spellIndex}) async {
+    final spell = await getSpellById(index: spellIndex);
+    final spellDetails = getDetailsForSpell(spell: spell);
+    return spellDetails;
+  }
+
   Future<SpellEntityWithDetails> getDetailsForSpell(
       {required SpellEntity spell}) async {
     final response = await _dio.get(

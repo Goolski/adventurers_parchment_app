@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class MainMenuView extends StatelessWidget {
   const MainMenuView({super.key});
@@ -25,7 +26,7 @@ class MainMenuView extends StatelessWidget {
           Column(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.go('/spells'),
                 child: Text(
                   'All the spells I know?',
                   style: textButtonTextStyle,

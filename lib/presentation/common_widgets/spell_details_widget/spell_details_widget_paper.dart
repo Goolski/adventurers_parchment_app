@@ -3,41 +3,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
-import '../art_deco_border_widget.dart';
-import '../masked_gif_image_widget.dart';
 
 class SpellDetailsWidgetPaper extends StatelessWidget {
-  final SpellEntityWithDetails spell;
-
-  const SpellDetailsWidgetPaper({super.key, required this.spell});
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 9 / 16,
-      child: Card(
-        elevation: 8,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        child: Stack(
-          children: [
-            Background(),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MaskedGifImageWidget(
-                image: AssetImage('assets/noise.gif'),
-                blendMode: BlendMode.dstIn,
-                child: Body(spell: spell),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class Body extends StatelessWidget {
-  const Body({
+  const SpellDetailsWidgetPaper({
     super.key,
     required this.spell,
   });
@@ -46,33 +14,27 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ArtDecoBorderWidget(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8,
-          vertical: 16,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SpellNameWidget(spell: spell),
+        Text('Level ${spell.level} spell'),
+        Text('Duration:    ${spell.duration}'),
+        Text('Components: ${componentsToStr(spell.components)}'),
+        Text('Range:    ${spell.range}'),
+        Expanded(
+          child: SpellDescriptionWidget(spell: spell),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SpellNameWidget(spell: spell),
-            GridView.count(
-              crossAxisCount: 3,
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: [
-                SpellRangeWidget(spell: spell),
-                SpellDurationWidget(spell: spell),
-                SpellComponentsWidget(components: spell.components),
-              ],
-            ),
-            Expanded(
-              child: SpellDescriptionWidget(spell: spell),
-            ),
-          ],
-        ),
-      ),
+      ],
     );
+  }
+
+  String componentsToStr(Set<SpellComponent> components) {
+    String str = '';
+    if (components.contains(SpellComponent.verbal)) str += 'V ';
+    if (components.contains(SpellComponent.somatic)) str += 'S ';
+    if (components.contains(SpellComponent.material)) str += 'M';
+    return str;
   }
 }
 
@@ -105,13 +67,10 @@ class SpellDescriptionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          spell.desc.join("\n\n"),
-          textAlign: TextAlign.justify,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.4),
-        ),
+      child: Text(
+        spell.desc.join("\n\n"),
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(height: 1.4),
       ),
     );
   }
