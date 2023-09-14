@@ -7,7 +7,7 @@ final ThemeData theme = ThemeData(
 );
 
 // final fontFamily = GoogleFonts.cinzel().fontFamily;
-final fontFamily = GoogleFonts.forum().fontFamily;
+final fontFamily = GoogleFonts.meddon().fontFamily;
 final titleFont = GoogleFonts.unifrakturMaguntia().fontFamily;
 final spellDescription = GoogleFonts.meddon().fontFamily;
 

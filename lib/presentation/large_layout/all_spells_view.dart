@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dnd_app/presentation/common_widgets/spell_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../data_sources/spells_data_source.dart';
 import '../../di/di.dart';
 import '../../entities/spell_entity.dart';
+import '../common_widgets/spell_list_tile_widget/spell_list_tile_widget.dart';
 
 class AllSpellsView extends StatelessWidget {
   const AllSpellsView({super.key});

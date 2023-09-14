@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:dnd_app/presentation/common_widgets/spell_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data_sources/spells_data_source.dart';
 import '../../../di/di.dart';
 import '../../../entities/spell_entity.dart';
+import '../../common_widgets/spell_list_tile_widget/spell_list_tile_on_paper_widget.dart';
 
 class AllSpellsView extends StatelessWidget {
   const AllSpellsView({super.key});
@@ -24,7 +24,7 @@ class AllSpellsView extends StatelessWidget {
               case true:
                 return ListView.builder(
                   itemCount: controller.spells.length,
-                  itemBuilder: (context, index) => SpellListTileWidget(
+                  itemBuilder: (context, index) => SpellListTileOnPaperWidget(
                     spell: controller.spells[index],
                   ),
                 );
