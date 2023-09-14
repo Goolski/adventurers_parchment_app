@@ -36,7 +36,7 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
           child: SpellDescriptionWidget(spell: spell),
         ),
         Text(
-          '${spell.characterClass.map((charClass) => charClass.name).join(", ")}',
+          '${spell.characterClasses.map((charClass) => charClass.name).join(", ")}',
           textAlign: TextAlign.center,
         ),
       ],
