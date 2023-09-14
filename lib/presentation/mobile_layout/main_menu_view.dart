@@ -6,7 +6,7 @@ class MainMenuView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.titleLarge;
-    final textButtonStyle = Theme.of(context).textTheme.bodyLarge;
+    final textButtonTextStyle = Theme.of(context).textTheme.bodyLarge;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -28,28 +28,28 @@ class MainMenuView extends StatelessWidget {
                 onPressed: () {},
                 child: Text(
                   'All the spells I know?',
-                  style: textButtonStyle,
+                  style: textButtonTextStyle,
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
                   'Spells of a particular class?',
-                  style: textButtonStyle,
+                  style: textButtonTextStyle,
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
                   'Your favorite spells?',
-                  style: textButtonStyle,
+                  style: textButtonTextStyle,
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
                   'Spells of a particular ?',
-                  style: textButtonStyle,
+                  style: textButtonTextStyle,
                 ),
               ),
             ],
