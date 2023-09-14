@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../data_sources/spells_data_source.dart';
-import '../../di/di.dart';
-import '../../entities/spell_entity.dart';
 import '../common_widgets/spell_list_tile_widget/spell_list_tile_widget.dart';
+import '../controllers/all_spell_view_controller.dart';
 
 class AllSpellsView extends StatelessWidget {
   const AllSpellsView({super.key});
@@ -45,33 +41,5 @@ class AllSpellsView extends StatelessWidget {
         content: Text(message),
       ),
     );
-  }
-}
-
-class AllSpellsViewController extends ChangeNotifier {
-  AllSpellsViewController(this.showErrorMessage) {
-    _init();
-  }
-
-  Function(String) showErrorMessage;
-
-  List<SpellEntity> _spells = [];
-  List<SpellEntity> get spells => _spells;
-
-  final SpellsDataSource _spellsDataSource =
-      Injector.resolve<SpellsDataSource>();
-
-  Future<void> _init() async {
-    try {
-      await getSpells();
-    } catch (e) {
-      showErrorMessage('Error');
-    }
-  }
-
-  Future<void> getSpells() async {
-    final newSpells = await _spellsDataSource.getSpells();
-    _spells = newSpells;
-    notifyListeners();
   }
 }
