@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:dnd_app/presentation/common_widgets/favorite_spell_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
@@ -17,7 +18,15 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SpellNameWidget(spell: spell),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(child: SpellNameWidget(spell: spell)),
+            FavoriteSpellButtonWidget(
+              spell: spell,
+            )
+          ],
+        ),
         Text('Level ${spell.level} spell'),
         Text('School of ${spell.school.name}'),
         Text('Duration:    ${spell.duration}'),
@@ -67,6 +76,7 @@ class SpellNameWidget extends StatelessWidget {
       spell.name,
       style: Theme.of(context).textTheme.headlineSmall,
       textAlign: TextAlign.start,
+      softWrap: true,
     );
   }
 }

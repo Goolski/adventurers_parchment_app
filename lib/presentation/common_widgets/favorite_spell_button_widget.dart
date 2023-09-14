@@ -22,8 +22,8 @@ class FavoriteSpellButtonWidget extends StatelessWidget {
           onPressed: () => favSpellController.toggleFavorite(),
           icon: Icon(
             favSpellController.isFavorite
-                ? Icons.favorite
-                : Icons.favorite_border,
+                ? Icons.bookmark
+                : Icons.bookmark_border,
           ),
         ),
       ),
