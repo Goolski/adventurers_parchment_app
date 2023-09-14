@@ -15,7 +15,7 @@ class SpellsDataSource {
             DioCacheInterceptor(
               options: CacheOptions(
                 store: HiveCacheStore(null),
-                policy: CachePolicy.request,
+                policy: CachePolicy.forceCache,
               ),
             ),
           ) {
