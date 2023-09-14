@@ -4,29 +4,30 @@ import 'package:google_fonts/google_fonts.dart';
 final ThemeData theme = ThemeData(
   fontFamily: fontFamily,
   textTheme: textTheme,
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
 );
 
 // final fontFamily = GoogleFonts.cinzel().fontFamily;
-final fontFamily = GoogleFonts.meddon().fontFamily;
-final titleFont = GoogleFonts.unifrakturMaguntia().fontFamily;
-final spellDescription = GoogleFonts.meddon().fontFamily;
+final fontFamily = GoogleFonts.fondamento().fontFamily;
 
 const defaultFontWeight = FontWeight.w600;
 
 final textTheme = TextTheme(
   bodyLarge: TextStyle(fontWeight: defaultFontWeight),
   bodyMedium: TextStyle(
-    fontFamily: spellDescription,
     fontWeight: defaultFontWeight,
+    fontSize: 20,
   ),
-  bodySmall: TextStyle(fontWeight: defaultFontWeight),
+  bodySmall: TextStyle(
+    fontWeight: defaultFontWeight,
+    fontSize: 24,
+  ),
   displayLarge: TextStyle(fontWeight: defaultFontWeight),
   displayMedium: TextStyle(fontWeight: defaultFontWeight),
   displaySmall: TextStyle(fontWeight: defaultFontWeight),
   headlineLarge: TextStyle(fontWeight: defaultFontWeight),
   headlineMedium: TextStyle(fontWeight: defaultFontWeight),
-  headlineSmall:
-      TextStyle(fontWeight: defaultFontWeight, fontFamily: titleFont),
+  headlineSmall: TextStyle(fontWeight: defaultFontWeight),
   labelLarge: TextStyle(fontWeight: defaultFontWeight),
   labelMedium: TextStyle(fontWeight: defaultFontWeight),
   labelSmall: TextStyle(fontWeight: defaultFontWeight),
