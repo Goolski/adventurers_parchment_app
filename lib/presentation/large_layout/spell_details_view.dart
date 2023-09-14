@@ -34,9 +34,7 @@ class _SpellDetailsViewState extends State<SpellDetailsView> {
         if (snapshot.connectionState == ConnectionState.done) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: SpellDetailsWidgetPaper(spell: snapshot.data!),
-            ),
+            child: SpellDetailsWidgetPaper(spell: snapshot.data!),
           );
         } else {
           return const Center(

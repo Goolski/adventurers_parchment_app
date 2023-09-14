@@ -15,15 +15,29 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SpellNameWidget(spell: spell),
         Text('Level ${spell.level} spell'),
+        Text('School of ${spell.school.name}'),
         Text('Duration:    ${spell.duration}'),
         Text('Components: ${componentsToStr(spell.components)}'),
         Text('Range:    ${spell.range}'),
+        if (spell.concentration) ...[
+          Text(
+            'Requires Concentration',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(decoration: TextDecoration.underline),
+          )
+        ],
         Expanded(
           child: SpellDescriptionWidget(spell: spell),
+        ),
+        Text(
+          '${spell.characterClass.map((charClass) => charClass.name).join(", ")}',
+          textAlign: TextAlign.center,
         ),
       ],
     );
