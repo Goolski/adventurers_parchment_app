@@ -18,7 +18,7 @@ class MainMenuView extends StatelessWidget {
             style: textStyle,
           ),
           Text(
-            'What whould You like to See?',
+            'What would You like to See?',
             textAlign: TextAlign.center,
             style: textStyle,
           ),
@@ -41,14 +41,14 @@ class MainMenuView extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'Spells of a particular school?',
+                  'Your favorite spells?',
                   style: textButtonStyle,
                 ),
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'Your favorite spells?',
+                  'Spells of a particular ?',
                   style: textButtonStyle,
                 ),
               ),
