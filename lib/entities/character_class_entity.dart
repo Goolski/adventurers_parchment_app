@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'character_class_entity.g.dart';
 
 @JsonSerializable()
-class CharacterClassEntity {
-  CharacterClassEntity({
+class CharacterClassEntity extends Equatable {
+  const CharacterClassEntity({
     required this.index,
     required this.name,
     required this.url,
