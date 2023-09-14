@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MainScaffold extends StatelessWidget {
-  const MainScaffold({super.key});
+  const MainScaffold({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +15,7 @@ class MainScaffold extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           MainBackgroundWidget(),
-          SafeArea(child: Placeholder()),
+          SafeArea(child: child),
         ],
       ),
     );

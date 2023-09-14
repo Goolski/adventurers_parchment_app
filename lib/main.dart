@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:dnd_app/presentation/mobile_layout/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'di/di.dart';
+import 'presentation/mobile_layout/mobile_router.dart';
 import 'presentation/my_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: theme,
-      home: MainScaffold(),
+      routerConfig: router,
     );
   }
 }
