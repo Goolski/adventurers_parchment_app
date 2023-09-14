@@ -32,6 +32,29 @@ class SpellsDataSource {
     );
   }
 
+  Future<List<SpellEntity>> getSpellsByLevel(
+      {required Set<SpellLevel> levels}) async {
+    final response =
+        await _dio.get('$apiPath/api/spells?${levelsToUrl(levels)}');
+    List<dynamic> results = response.data["results"];
+    final spells =
+        results.map((spellJson) => SpellEntity.fromJson(spellJson)).toList();
+    return spells;
+  }
+
+  Future<List<SpellEntityWithDetails>> getDetailsForSpells(
+      {List<SpellEntity>? spells}) async {
+    spells ??= await getSpells();
+    final spellsWithDetailsFutures =
+        spells.map((spell) => getDetailsForSpell(spell: spell));
+    final spellsWithDetails = Future.wait(spellsWithDetailsFutures);
+    return spellsWithDetails;
+  }
+
+  String levelsToUrl(Set<SpellLevel> levels) {
+    return '${levels.map((e) => 'level=${e.index}').join('&')}';
+  }
+
   Future<List<SpellEntity>> getSpells() async {
     final response = await _dio.get(
       '$apiPath/api/spells',

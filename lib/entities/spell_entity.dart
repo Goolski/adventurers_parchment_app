@@ -72,3 +72,16 @@ enum SpellComponent {
   @JsonValue('M')
   material,
 }
+
+enum SpellLevel {
+  cantrip,
+  one,
+  two,
+  three,
+  four,
+  five,
+  six,
+  seven,
+  eight,
+  nine
+}
