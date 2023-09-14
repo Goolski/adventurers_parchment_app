@@ -21,6 +21,7 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
         Text('Level ${spell.level} spell'),
         Text('School of ${spell.school.name}'),
         Text('Duration:    ${spell.duration}'),
+        Text('Casting time: ${spell.castingTime}'),
         Text('Components: ${componentsToStr(spell.components)}'),
         Text('Range:    ${spell.range}'),
         if (spell.concentration) ...[
