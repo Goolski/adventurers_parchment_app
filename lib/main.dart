@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:dnd_app/presentation/mobile_layout/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'di/di.dart';
-import 'presentation/large_layout/main_view.dart';
 import 'presentation/my_theme.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -30,9 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: SafeArea(
-        child: MainView(),
-      ),
+      home: MainScaffold(),
     );
   }
 }
