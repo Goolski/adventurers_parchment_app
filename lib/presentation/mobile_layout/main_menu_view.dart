@@ -39,6 +39,13 @@ class MainMenuView extends StatelessWidget {
                   style: textButtonTextStyle,
                 ),
               ),
+              TextButton(
+                onPressed: () => context.go('/gif'),
+                child: Text(
+                  'Or that funky gif?',
+                  style: textButtonTextStyle,
+                ),
+              ),
             ],
           )
         ],
