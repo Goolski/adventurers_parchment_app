@@ -4,26 +4,31 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
-class MaskedGifImageWidget extends StatefulWidget {
-  const MaskedGifImageWidget({
+class MaskedGifImageAnimatedWidget extends StatefulWidget {
+  const MaskedGifImageAnimatedWidget({
     super.key,
     required this.image,
     required this.child,
     required this.blendMode,
+    this.forward = true,
+    required this.animator,
   });
 
   final BlendMode blendMode;
   final AssetImage image;
   final Widget child;
+  final bool forward;
+  final Animation<double> animator;
 
   @override
-  State<MaskedGifImageWidget> createState() => MaskedGifImageWidgetState();
+  State<MaskedGifImageAnimatedWidget> createState() =>
+      _MaskedImageWidgetAnimatedState();
 }
 
-class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
+class _MaskedImageWidgetAnimatedState
+    extends State<MaskedGifImageAnimatedWidget>
     with SingleTickerProviderStateMixin {
   late Future<List<ImageInfo>> images;
-  late AnimationController animController;
   late Animation<int> fractalAnimation;
   late Animation<double> opacityAnimation;
 
@@ -31,52 +36,17 @@ class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
   void initState() {
     super.initState();
 
-    animController = AnimationController(
-      duration: Duration(seconds: 2),
-      vsync: this,
-      lowerBound: 0,
-      upperBound: 1.0,
-    );
-
     images = getGifImages().then((value) {
       opacityAnimation = Tween<double>(begin: 0.0, end: 1.0)
-          .animate(animController)
+          .animate(widget.animator)
         ..addListener(() {});
       fractalAnimation =
-          IntTween(begin: 0, end: value.length - 1).animate(animController)
+          IntTween(begin: 0, end: value.length - 1).animate(widget.animator)
             ..addListener(() {
               setState(() {});
             });
       return value;
     });
-  }
-
-  Future<void> goForward() {
-    images.whenComplete(() {
-      animController.forward();
-    });
-    Completer completer = Completer<void>();
-    animController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        completer.complete();
-      }
-    });
-    return completer.future;
-  }
-
-  Future<void> goBackwards() {
-    images.whenComplete(
-      () => animController.reverse(from: animController.upperBound),
-    );
-    Completer completer = Completer<void>();
-    animController.addListener(
-      () {
-        if (animController.value == animController.lowerBound) {
-          completer.complete();
-        }
-      },
-    );
-    return completer.future;
   }
 
   @override
@@ -99,7 +69,11 @@ class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
             ),
           );
         } else {
-          return SizedBox.expand();
+          if (widget.forward) {
+            return SizedBox.expand();
+          } else {
+            return widget.child;
+          }
         }
       },
     );
@@ -107,7 +81,7 @@ class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
 
   @override
   void dispose() {
-    animController.dispose();
+    // widget.animator.removeListener(() {});
     super.dispose();
   }
 

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dnd_app/presentation/common_widgets/masked_gif_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,54 +29,50 @@ class AllSpellsPaperView extends StatelessWidget {
                       image: AssetImage('assets/paper.jpg'),
                       fit: BoxFit.cover,
                     ),
-                    MaskedGifImageWidget(
-                      image: AssetImage('assets/noiseFast.gif'),
-                      blendMode: BlendMode.dstIn,
-                      child: Center(
-                        child: Container(
-                          width: 600,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 60),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  'Here is the list of all the spells',
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                  textAlign: TextAlign.start,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0),
-                                  child: ListView.builder(
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    itemCount: 25,
-                                    itemBuilder: (context, index) => Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(),
+                    Center(
+                      child: Container(
+                        width: 600,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 60),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'Here is the list of all the spells',
+                                style: Theme.of(context).textTheme.titleLarge,
+                                textAlign: TextAlign.start,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: ListView.builder(
+                                  primary: false,
+                                  shrinkWrap: true,
+                                  itemCount: 25,
+                                  itemBuilder: (context, index) => Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border(
+                                          bottom: BorderSide(),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SpellListTileOnPaperWidget(
+                                            spell: controller.spells[index],
                                           ),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SpellListTileOnPaperWidget(
-                                              spell: controller.spells[index],
-                                            ),
-                                            Text('${index + 1}'),
-                                          ],
-                                        ),
+                                          Text('${index + 1}'),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

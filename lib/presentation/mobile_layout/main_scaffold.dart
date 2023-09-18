@@ -15,8 +15,11 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    widgetKey.currentState?.goBackwards();
-    return Scaffold(
+    Future.delayed(
+      Duration(milliseconds: 500),
+      () => widgetKey.currentState?.goForward(),
+    );
+    final widget = Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -32,12 +35,14 @@ class MainScaffold extends StatelessWidget {
         ],
       ),
     );
+    return widget;
   }
 
-  void goTo(BuildContext context, String path) {
-    widgetKey.currentState?.goBackwards();
-    context.go(path);
-    widgetKey.currentState?.goBackwards();
+  void goTo(BuildContext context, String path) async {
+    widgetKey.currentState?.goBackwards().then(
+          (value) => context.go(path),
+        );
+    // context.go(path);
   }
 }
 
