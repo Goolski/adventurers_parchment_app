@@ -101,7 +101,7 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
         (await key.bundle.load(key.name)).buffer.asUint8List();
 
     ui.Codec codec =
-        await PaintingBinding.instance!.instantiateImageCodec(bytes);
+        await PaintingBinding.instance.instantiateImageCodec(bytes);
     List<ImageInfo> infos = [];
 
     for (int i = 0; i < codec.frameCount; i++) {
