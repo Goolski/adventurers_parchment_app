@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'main_scaffold.dart';
+
 class MainMenuView extends StatelessWidget {
   const MainMenuView({super.key});
 
@@ -40,7 +42,9 @@ class MainMenuView extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () => context.go('/gif'),
+                onPressed: () => context
+                    .findAncestorWidgetOfExactType<MainScaffold>()!
+                    .goTo(context, '/gif'),
                 child: Text(
                   'Or that funky gif?',
                   style: textButtonTextStyle,

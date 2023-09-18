@@ -10,19 +10,17 @@ class MaskedGifImageWidget extends StatefulWidget {
     required this.image,
     required this.child,
     required this.blendMode,
-    this.forward = true,
   });
 
   final BlendMode blendMode;
   final AssetImage image;
   final Widget child;
-  final bool forward;
 
   @override
-  State<MaskedGifImageWidget> createState() => _MaskedImageWidgetState();
+  State<MaskedGifImageWidget> createState() => MaskedGifImageWidgetState();
 }
 
-class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
+class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
     with SingleTickerProviderStateMixin {
   late Future<List<ImageInfo>> images;
   late AnimationController animController;
@@ -49,13 +47,17 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
             ..addListener(() {
               setState(() {});
             });
-      if (widget.forward) {
-        animController.forward();
-      } else {
-        animController.reverse(from: animController.upperBound);
-      }
+      animController.forward();
       return value;
     });
+  }
+
+  void goForward() {
+    images.whenComplete(() => animController.forward());
+  }
+
+  void goBackwards() {
+    images.whenComplete(() => animController.forward());
   }
 
   @override
@@ -78,11 +80,7 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
             ),
           );
         } else {
-          if (widget.forward) {
-            return SizedBox.expand();
-          } else {
-            return widget.child;
-          }
+          return SizedBox.expand();
         }
       },
     );

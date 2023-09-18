@@ -1,4 +1,3 @@
-import 'package:dnd_app/presentation/common_widgets/masked_gif_image_widget.dart';
 import 'package:flutter/material.dart';
 
 final text = '''
@@ -16,20 +15,8 @@ Curabitur volutpat lorem eu ultricies suscipit. Nulla consequat, sem sit amet po
 class GifTestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.greenAccent,
-        padding: EdgeInsets.all(20),
-        // child: Text('Hello World'),
-        child: SingleChildScrollView(
-          child: MaskedGifImageWidget(
-            forward: true,
-            image: AssetImage('assets/noise.gif'),
-            blendMode: BlendMode.dstIn,
-            child: Text(text),
-          ),
-        ),
-      ),
+    return SingleChildScrollView(
+      child: Text(text),
     );
   }
 }
