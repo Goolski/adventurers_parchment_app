@@ -42,7 +42,6 @@ class MainScaffold extends StatelessWidget {
     widgetKey.currentState?.goBackwards().then(
           (value) => context.go(path),
         );
-    // context.go(path);
   }
 }
 

@@ -1,7 +1,7 @@
+import 'package:dnd_app/presentation/mobile_layout/main_menu_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
-import '../../large_layout/spell_details_view.dart';
 
 class SpellListTileOnPaperWidget extends StatelessWidget {
   final SpellEntity spell;
@@ -13,7 +13,7 @@ class SpellListTileOnPaperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => onPressed(context),
+      onPressed: () => onPressed(context, spell),
       child: Text(
         spell.name,
         style: Theme.of(context).textTheme.bodyMedium,
@@ -22,13 +22,7 @@ class SpellListTileOnPaperWidget extends StatelessWidget {
     );
   }
 
-  void onPressed(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => SpellDetailsView(
-          spellIndex: spell.index,
-        ),
-      ),
-    );
+  void onPressed(BuildContext context, SpellEntity spell) {
+    goTo(context, '/spells/${spell.index}');
   }
 }

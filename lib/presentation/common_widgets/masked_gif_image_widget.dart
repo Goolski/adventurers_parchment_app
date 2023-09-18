@@ -32,7 +32,7 @@ class MaskedGifImageWidgetState extends State<MaskedGifImageWidget>
     super.initState();
 
     animController = AnimationController(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       vsync: this,
       lowerBound: 0,
       upperBound: 1.0,

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import 'main_scaffold.dart';
+
+void goTo(BuildContext context, String path) {
+  context.findAncestorWidgetOfExactType<MainScaffold>()!.goTo(context, path);
+}
 
 class MainMenuView extends StatelessWidget {
   const MainMenuView({super.key});
@@ -28,25 +31,16 @@ class MainMenuView extends StatelessWidget {
           Column(
             children: [
               TextButton(
-                onPressed: () => context.go('/spells'),
+                onPressed: () => goTo(context, '/spells'),
                 child: Text(
                   'All the spells I know?',
                   style: textButtonTextStyle,
                 ),
               ),
               TextButton(
-                onPressed: () => context.go('/spells/favorite'),
+                onPressed: () => goTo(context, '/spells/favorite'),
                 child: Text(
                   'Your favorite spells?',
-                  style: textButtonTextStyle,
-                ),
-              ),
-              TextButton(
-                onPressed: () => context
-                    .findAncestorWidgetOfExactType<MainScaffold>()!
-                    .goTo(context, '/gif'),
-                child: Text(
-                  'Or that funky gif?',
                   style: textButtonTextStyle,
                 ),
               ),
