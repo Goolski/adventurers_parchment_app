@@ -10,11 +10,13 @@ class MaskedGifImageWidget extends StatefulWidget {
     required this.image,
     required this.child,
     required this.blendMode,
+    this.forward = true,
   });
 
   final BlendMode blendMode;
   final AssetImage image;
   final Widget child;
+  final bool forward;
 
   @override
   State<MaskedGifImageWidget> createState() => _MaskedImageWidgetState();
@@ -24,7 +26,8 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
     with SingleTickerProviderStateMixin {
   late Future<List<ImageInfo>> images;
   late AnimationController animController;
-  late Animation<int> animation;
+  late Animation<int> fractalAnimation;
+  late Animation<double> opacityAnimation;
 
   @override
   void initState() {
@@ -33,15 +36,24 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
     animController = AnimationController(
       duration: Duration(seconds: 2),
       vsync: this,
+      lowerBound: 0,
+      upperBound: 1.0,
     );
 
     images = getGifImages().then((value) {
-      animation =
+      opacityAnimation = Tween<double>(begin: 0.0, end: 1.0)
+          .animate(animController)
+        ..addListener(() {});
+      fractalAnimation =
           IntTween(begin: 0, end: value.length - 1).animate(animController)
             ..addListener(() {
               setState(() {});
             });
-      animController.forward();
+      if (widget.forward) {
+        animController.forward();
+      } else {
+        animController.reverse(from: animController.upperBound);
+      }
       return value;
     });
   }
@@ -52,18 +64,25 @@ class _MaskedImageWidgetState extends State<MaskedGifImageWidget>
       future: images,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return ShaderMask(
-            blendMode: widget.blendMode,
-            shaderCallback: (bounds) => ImageShader(
-              snapshot.data![animation.value].image,
-              TileMode.repeated,
-              TileMode.repeated,
-              Matrix4.identity().storage,
+          return Opacity(
+            opacity: opacityAnimation.value,
+            child: ShaderMask(
+              blendMode: widget.blendMode,
+              shaderCallback: (bounds) => ImageShader(
+                snapshot.data![fractalAnimation.value].image,
+                TileMode.repeated,
+                TileMode.repeated,
+                Matrix4.identity().storage,
+              ),
+              child: widget.child,
             ),
-            child: widget.child,
           );
         } else {
-          return SizedBox.expand();
+          if (widget.forward) {
+            return SizedBox.expand();
+          } else {
+            return widget.child;
+          }
         }
       },
     );

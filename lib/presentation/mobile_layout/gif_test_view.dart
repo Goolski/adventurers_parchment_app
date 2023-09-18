@@ -23,6 +23,7 @@ class GifTestView extends StatelessWidget {
         // child: Text('Hello World'),
         child: SingleChildScrollView(
           child: MaskedGifImageWidget(
+            forward: true,
             image: AssetImage('assets/noise.gif'),
             blendMode: BlendMode.dstIn,
             child: Text(text),
