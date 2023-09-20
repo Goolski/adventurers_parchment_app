@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'di/di.dart';
@@ -20,6 +22,11 @@ void main() {
   Hive.initFlutter();
   Injector.setup();
   HttpOverrides.global = MyHttpOverrides();
+  LicenseRegistry.addLicense(() async* {
+    final license =
+        await rootBundle.loadString('assets/fonts/google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
   runApp(const MyApp());
 }
 
