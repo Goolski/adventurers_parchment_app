@@ -8,8 +8,8 @@ part of 'di.dart';
 
 class _$Injector extends Injector {
   @override
-  void configure() {
+  void configureGenerated() {
     final KiwiContainer container = KiwiContainer();
-    container.registerFactory((c) => SpellsDataSource());
+    container.registerFactory((c) => SpellsDataSource(c<Dio>()));
   }
 }
