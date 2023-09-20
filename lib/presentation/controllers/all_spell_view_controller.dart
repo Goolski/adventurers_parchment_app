@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_sources/spells_data_source.dart';
@@ -97,8 +100,13 @@ class AllSpellsViewController extends ChangeNotifier {
   Future<void> _init() async {
     try {
       await _getSpells();
+    } on DioException catch (e) {
+      if (e.error is SocketException)
+        showErrorMessage(
+          "Cannot connect to Guild of Magic. Are you sure you have internet connection?",
+        );
     } catch (e) {
-      showErrorMessage('Error');
+      showErrorMessage("Unknown error. Please try again later");
     }
   }
 
