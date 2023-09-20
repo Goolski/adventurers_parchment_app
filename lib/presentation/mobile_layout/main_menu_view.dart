@@ -13,41 +13,57 @@ class MainMenuView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.titleLarge;
     final textButtonTextStyle = Theme.of(context).textTheme.titleLarge;
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text(
-            'Oh Hello!\n I am a Parchment',
-            textAlign: TextAlign.center,
-            style: textStyle,
-          ),
-          Text(
-            'What would You like to See?',
-            textAlign: TextAlign.center,
-            style: textStyle,
-          ),
-          Column(
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                onPressed: () => goTo(context, '/spells'),
-                child: Text(
-                  'All the spells I know?',
-                  style: textButtonTextStyle,
-                ),
+              Text(
+                'Oh Hello!\n I am a Parchment',
+                textAlign: TextAlign.center,
+                style: textStyle,
               ),
-              TextButton(
-                onPressed: () => goTo(context, '/spells/favorite'),
-                child: Text(
-                  'Your favorite spells?',
-                  style: textButtonTextStyle,
-                ),
+              Text(
+                'What would You like to See?',
+                textAlign: TextAlign.center,
+                style: textStyle,
+              ),
+              Column(
+                children: [
+                  TextButton(
+                    onPressed: () => goTo(context, '/spells'),
+                    child: Text(
+                      'All the spells I know?',
+                      style: textButtonTextStyle,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => goTo(context, '/spells/favorite'),
+                    child: Text(
+                      'Your favorite spells?',
+                      style: textButtonTextStyle,
+                    ),
+                  ),
+                ],
               ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          bottom: 0,
+          child: TextButton(
+            onPressed: () => goTo(context, '/licenses'),
+            child: Text(
+              'Licenses',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
