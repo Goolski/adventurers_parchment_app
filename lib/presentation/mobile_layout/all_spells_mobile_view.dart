@@ -50,7 +50,7 @@ class AllSpellsMobileView extends StatelessWidget {
                 ],
               );
             } else {
-              return SizedBox.shrink();
+              return Center(child: Text("Loading spells"));
             }
           },
         ),

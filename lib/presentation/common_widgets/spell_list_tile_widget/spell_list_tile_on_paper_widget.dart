@@ -1,5 +1,5 @@
-import 'package:dnd_app/presentation/mobile_layout/main_menu_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../entities/spell_entity.dart';
 
@@ -23,6 +23,6 @@ class SpellListTileOnPaperWidget extends StatelessWidget {
   }
 
   void onPressed(BuildContext context, SpellEntity spell) {
-    goTo(context, '/spells/${spell.index}');
+    context.go('/spells/${spell.index}');
   }
 }

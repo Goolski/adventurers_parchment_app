@@ -12,38 +12,28 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          pageBuilder: (context, state) => NoTransitionPage(
-            child: MainMenuView(),
-          ),
+          builder: (context, state) => MainMenuView(),
           // builder: (context, state) => MainMenuView(),
           routes: [
             GoRoute(
               path: 'spells/favorite',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: FavoriteSpellsMobileView(),
-              ),
+              builder: (context, state) => FavoriteSpellsMobileView(),
             ),
             GoRoute(
               path: 'spells',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: AllSpellsMobileView(),
-              ),
+              builder: (context, state) => AllSpellsMobileView(),
               routes: [
                 GoRoute(
                   path: ':spellId',
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    child: SpellDetailsView(
-                      spellIndex: state.pathParameters['spellId']!,
-                    ),
+                  builder: (context, state) => SpellDetailsView(
+                    spellIndex: state.pathParameters['spellId']!,
                   ),
                 ),
               ],
             ),
             GoRoute(
               path: 'licenses',
-              pageBuilder: (context, state) => NoTransitionPage(
-                child: LicensePage(),
-              ),
+              builder: (context, state) => LicensePage(),
             ),
           ],
         ),

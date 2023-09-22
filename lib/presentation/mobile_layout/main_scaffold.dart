@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../common_widgets/masked_gif_image_widget.dart';
 
@@ -15,33 +14,18 @@ class MainScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(
-      Duration(milliseconds: 500),
-      () => widgetKey.currentState?.goForward(),
-    );
     final widget = Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
           MainBackgroundWidget(key: key),
           SafeArea(
-            child: MaskedGifImageWidget(
-              blendMode: BlendMode.dstIn,
-              image: AssetImage('assets/noise.gif'),
-              child: child,
-              key: widgetKey,
-            ),
+            child: child,
           ),
         ],
       ),
     );
     return widget;
-  }
-
-  void goTo(BuildContext context, String path) async {
-    widgetKey.currentState?.goBackwards().then(
-          (value) => context.go(path),
-        );
   }
 }
 

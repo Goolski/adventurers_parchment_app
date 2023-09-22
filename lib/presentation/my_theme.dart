@@ -5,6 +5,7 @@ final ThemeData theme = ThemeData(
   fontFamily: fontFamily,
   textTheme: textTheme,
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+  pageTransitionsTheme: pageTransitionTheme,
 );
 
 // final fontFamily = GoogleFonts.cinzel().fontFamily;
@@ -35,3 +36,37 @@ final textTheme = TextTheme(
   titleMedium: TextStyle(fontWeight: defaultFontWeight),
   titleSmall: TextStyle(fontWeight: defaultFontWeight),
 );
+
+final pageTransitionTheme = PageTransitionsTheme(
+  builders: <TargetPlatform, PageTransitionsBuilder>{
+    TargetPlatform.iOS: FadePageTransitionsBuilder(),
+    TargetPlatform.linux: FadePageTransitionsBuilder(),
+    TargetPlatform.macOS: FadePageTransitionsBuilder(),
+    TargetPlatform.android: FadePageTransitionsBuilder(),
+    TargetPlatform.fuchsia: FadePageTransitionsBuilder(),
+    TargetPlatform.windows: FadePageTransitionsBuilder(),
+  },
+);
+
+class FadePageTransitionsBuilder extends PageTransitionsBuilder {
+  @override
+  Widget buildTransitions<T>(
+      PageRoute<T> route,
+      BuildContext context,
+      Animation<double> animation,
+      Animation<double> secondaryAnimation,
+      Widget child) {
+    return Stack(
+      children: [
+        FadeTransition(
+          opacity: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
+          child: FadeTransition(
+            opacity:
+                Tween<double>(begin: 1.0, end: 0.0).animate(secondaryAnimation),
+            child: child,
+          ),
+        ),
+      ],
+    );
+  }
+}
