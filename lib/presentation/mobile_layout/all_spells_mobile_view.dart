@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:dnd_app/presentation/common_widgets/spell_list_tile_widget/spell_list_tile_on_paper_widget.dart';
+import 'package:adventurers_parchment/presentation/common_widgets/spell_list_tile_widget/spell_list_tile_on_paper_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

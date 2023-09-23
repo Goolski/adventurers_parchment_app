@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:dnd_app/presentation/common_widgets/favorite_spell_button_widget.dart';
+import 'package:adventurers_parchment/presentation/common_widgets/favorite_spell_button_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';

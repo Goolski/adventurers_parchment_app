@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dnd_app/data_sources/favorite_spells_local_data_source.dart';
+import 'package:adventurers_parchment/data_sources/favorite_spells_local_data_source.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

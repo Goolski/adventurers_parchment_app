@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dnd_app/entities/spell_entity.dart';
+import 'package:adventurers_parchment/entities/spell_entity.dart';
 
 const apiPath = 'https://www.dnd5eapi.co';
 

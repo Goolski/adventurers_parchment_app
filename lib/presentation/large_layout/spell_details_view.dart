@@ -1,4 +1,4 @@
-import 'package:dnd_app/entities/spell_entity.dart';
+import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../data_sources/spells_data_source.dart';

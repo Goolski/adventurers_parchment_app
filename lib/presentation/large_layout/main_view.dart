@@ -1,4 +1,4 @@
-import 'package:dnd_app/presentation/large_layout/favorite_spells_view.dart';
+import 'package:adventurers_parchment/presentation/large_layout/favorite_spells_view.dart';
 import 'package:flutter/material.dart';
 
 import 'all_spells_view/all_spells_paper_view.dart';

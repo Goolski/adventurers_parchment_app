@@ -1,4 +1,4 @@
-import 'package:dnd_app/entities/character_class_entity.dart';
+import 'package:adventurers_parchment/entities/character_class_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
