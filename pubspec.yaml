@@ -59,3 +59,4 @@ flutter:
     - assets/noise.gif
     - assets/noiseFast.gif
     - assets/fonts/google_fonts/
+    - assets/spells.json

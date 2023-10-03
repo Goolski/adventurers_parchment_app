@@ -1,8 +1,9 @@
+import 'package:adventurers_parchment/data_sources/spells/spells_data_source.dart';
+import 'package:adventurers_parchment/data_sources/spells/spells_local_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:adventurers_parchment/data_sources/spells_data_source.dart';
 import 'package:kiwi/kiwi.dart';
 
 part 'di.g.dart';
@@ -44,7 +45,7 @@ abstract class Injector {
     );
   }
 
-  @Register.factory(SpellsDataSource)
+  @Register.factory(SpellsDataSource, from: SpellsLocalDataSource)
   void configureGenerated();
 
   static final resolve = container.resolve;

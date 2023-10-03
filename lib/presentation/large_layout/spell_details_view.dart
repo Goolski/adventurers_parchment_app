@@ -1,7 +1,7 @@
 import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:flutter/material.dart';
 
-import '../../data_sources/spells_data_source.dart';
+import '../../data_sources/spells/spells_data_source.dart';
 import '../../di/di.dart';
 import '../common_widgets/spell_details_widget/spell_details_widget_paper.dart';
 

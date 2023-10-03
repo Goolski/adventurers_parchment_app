@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../data_sources/spells_data_source.dart';
+import '../../../data_sources/spells/spells_data_source.dart';
 import '../../../di/di.dart';
 import '../../../entities/spell_entity.dart';
 import '../../common_widgets/spell_list_tile_widget/spell_list_tile_on_paper_widget.dart';
@@ -121,7 +121,7 @@ class AllSpellsViewController extends ChangeNotifier {
   }
 
   Future<void> getSpells() async {
-    final newSpells = await _spellsDataSource.getSpells();
+    final newSpells = await _spellsDataSource.getSpellsWithDetails();
     _spells = newSpells;
     notifyListeners();
   }

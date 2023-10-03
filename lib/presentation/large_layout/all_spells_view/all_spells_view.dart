@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../data_sources/spells_data_source.dart';
+import '../../../data_sources/spells/spells_remote_data_source.dart';
 import '../../../di/di.dart';
 import '../../../entities/spell_entity.dart';
 import '../../common_widgets/spell_list_tile_widget/spell_list_tile_on_paper_widget.dart';
@@ -58,8 +58,8 @@ class AllSpellsViewController extends ChangeNotifier {
   List<SpellEntity> _spells = [];
   List<SpellEntity> get spells => _spells;
 
-  final SpellsDataSource _spellsDataSource =
-      Injector.resolve<SpellsDataSource>();
+  final SpellsRemoteDataSource _spellsDataSource =
+      Injector.resolve<SpellsRemoteDataSource>();
 
   Future<void> _init() async {
     try {

@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../data_sources/spells_data_source.dart';
+import '../../data_sources/spells/spells_data_source.dart';
 import '../../di/di.dart';
 import '../../entities/spell_entity.dart';
 
@@ -112,7 +112,7 @@ class AllSpellsViewController extends ChangeNotifier {
 
   Future<void> _getSpells() async {
     final List<SpellEntityWithDetails> newSpells =
-        await _spellsDataSource.getDetailsForSpells();
+        await _spellsDataSource.getSpellsWithDetails();
 
     _allSpells = newSpells;
     _displayedSpells = newSpells;
