@@ -97,7 +97,7 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
       newSpells = newSpells
           .where(
             (spell) =>
-                state.selectedFilters.castingTimes.contains(spell.duration),
+                state.selectedFilters.castingTimes.contains(spell.castingTime),
           )
           .toList();
     }
