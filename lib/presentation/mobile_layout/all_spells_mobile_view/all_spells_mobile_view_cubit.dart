@@ -73,6 +73,23 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
     filterSpells();
   }
 
+  updateSelectedComponents({required List<String> spellComponentsNames}) {
+    var currentFilters = state.selectedFilters;
+    var spellComponents = state.allFilterOptions.components
+        .where(
+          (component) => spellComponentsNames.contains(
+            component.getString(),
+          ),
+        )
+        .toList();
+    var newFilters = currentFilters.copyWith(
+      components: spellComponents,
+    );
+    var newState = state.copyWith(selectedFilters: newFilters);
+    emit(newState);
+    filterSpells();
+  }
+
   updateIsRitual({required bool? isRitual}) {
     var currentFilters = state.selectedFilters;
     var newFilters = currentFilters.copyWith(
@@ -121,6 +138,12 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
           )
           .toList();
     }
+    if (state.selectedFilters.components.isNotEmpty) {
+      newSpells = newSpells
+          .where((spell) =>
+              spell.components.containsAll(state.selectedFilters.components))
+          .toList();
+    }
     if (state.selectedFilters.concentration != null) {
       newSpells = newSpells
           .where(
@@ -142,7 +165,7 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
   _init() async {
     _allSpells = await _spellsDataSource.getSpellsWithDetails();
 
-    final options = SpellsOptionsWrapper.fromListOfSpells(spells: _allSpells);
+    final options = SpellsOptionsWrapper.defaultOptions(spells: _allSpells);
 
     emit(
       AllSpellsMobileViewState(

@@ -1,4 +1,5 @@
 import 'package:adventurers_parchment/data_sources/spells/spells_local_data_source.dart';
+import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/selectable_list_widget.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/three_state_button_widget.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_state.dart';
@@ -30,16 +31,27 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                           updateRequiresConcentration(context, currentState),
                       text: 'Concentration',
                     ),
+                    SizedBox(height: 4),
                     ThreeStateButtonWidget(
                       onStateChanged: (currentState) =>
                           updateIsRitual(context, currentState),
                       text: 'Ritual',
                     ),
+                    SizedBox(height: 4),
                     SelectableListWidget(
                       options: state.allFilterOptions.ranges,
                       onSelected: (selectedRanges) =>
                           updateSelectedRanges(context, selectedRanges),
                     ),
+                    SizedBox(height: 4),
+                    SelectableListWidget(
+                      options: state.allFilterOptions.components
+                          .map((e) => e.getString())
+                          .toList(),
+                      onSelected: (selectedComponents) =>
+                          updateSelectedComponents(context, selectedComponents),
+                    ),
+                    SizedBox(height: 4),
                     SelectableListWidget(
                       options: state.allFilterOptions.levels
                           .map((e) => e.toString())
@@ -47,6 +59,7 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                       onSelected: (selectedLevels) =>
                           updateSelectedLevels(context, selectedLevels),
                     ),
+                    SizedBox(height: 4),
                     SelectableListWidget(
                       options: state.allFilterOptions.schools
                           .map((e) => e.name)
@@ -54,11 +67,13 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                       onSelected: (selectedSchools) =>
                           updateSelectedSchools(context, selectedSchools),
                     ),
+                    SizedBox(height: 4),
                     SelectableListWidget(
                       options: state.allFilterOptions.durations,
                       onSelected: (durations) =>
                           updateSelectedDurations(context, durations),
                     ),
+                    SizedBox(height: 4),
                     SelectableListWidget(
                       options: state.allFilterOptions.castingTimes,
                       onSelected: (selectedCastingTimes) =>
@@ -136,5 +151,11 @@ class AllSpellsMobileViewNew extends StatelessWidget {
     context
         .read<AllSpellsMobileViewCubit>()
         .updateIsRitual(isRitual: currentState);
+  }
+
+  updateSelectedComponents(
+      BuildContext context, List<String> selectedComponentsNames) {
+    context.read<AllSpellsMobileViewCubit>().updateSelectedComponents(
+        spellComponentsNames: selectedComponentsNames);
   }
 }

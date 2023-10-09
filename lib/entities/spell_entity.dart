@@ -75,6 +75,19 @@ enum SpellComponent {
   material,
 }
 
+extension SpellComponentToString on SpellComponent {
+  String getString() {
+    switch (this) {
+      case SpellComponent.verbal:
+        return 'Verbal';
+      case SpellComponent.somatic:
+        return 'Somatic';
+      case SpellComponent.material:
+        return 'Material';
+    }
+  }
+}
+
 enum SpellLevel {
   cantrip,
   one,
