@@ -63,6 +63,16 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
     filterSpells();
   }
 
+  updateRequiresConcentration({required bool? requiresConcentration}) {
+    var currentFilters = state.selectedFilters;
+    var newFilters = currentFilters.copyWith(
+      concentration: () => requiresConcentration,
+    );
+    var newState = state.copyWith(selectedFilters: newFilters);
+    emit(newState);
+    filterSpells();
+  }
+
   void filterSpells() {
     var newSpells = _allSpells;
     if (state.selectedFilters.ranges.isNotEmpty) {
@@ -98,6 +108,14 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
           .where(
             (spell) =>
                 state.selectedFilters.castingTimes.contains(spell.castingTime),
+          )
+          .toList();
+    }
+    if (state.selectedFilters.concentration != null) {
+      newSpells = newSpells
+          .where(
+            (spell) =>
+                spell.concentration == state.selectedFilters.concentration,
           )
           .toList();
     }

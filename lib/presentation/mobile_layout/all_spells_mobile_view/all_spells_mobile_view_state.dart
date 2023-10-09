@@ -7,10 +7,11 @@ class AllSpellsMobileViewState extends Equatable {
   final SpellsOptionsWrapper selectedFilters;
   final List<SpellEntityWithDetails> filteredSpells;
 
-  AllSpellsMobileViewState(
-      {required this.allFilterOptions,
-      required this.selectedFilters,
-      required this.filteredSpells});
+  AllSpellsMobileViewState({
+    required this.allFilterOptions,
+    required this.selectedFilters,
+    required this.filteredSpells,
+  });
 
   @override
   List<Object> get props => [allFilterOptions, selectedFilters, filteredSpells];

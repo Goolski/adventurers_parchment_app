@@ -1,5 +1,6 @@
 import 'package:adventurers_parchment/data_sources/spells/spells_local_data_source.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/selectable_list_widget.dart';
+import 'package:adventurers_parchment/presentation/common_widgets/three_state_button_widget.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,10 @@ class AllSpellsMobileViewNew extends StatelessWidget {
               builder: (context, state) {
                 return Column(
                   children: [
+                    ThreeStateButtonWidget(
+                        onStateChanged: (currentState) =>
+                            updateRequiresConcentration(context, currentState),
+                        text: 'Concentration'),
                     SelectableListWidget(
                       options: state.allFilterOptions.ranges,
                       onSelected: (selectedRanges) =>
@@ -76,6 +81,12 @@ class AllSpellsMobileViewNew extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  updateRequiresConcentration(BuildContext context, bool? currentState) {
+    context
+        .read<AllSpellsMobileViewCubit>()
+        .updateRequiresConcentration(requiresConcentration: currentState);
   }
 
   updateSelectedSchools(BuildContext context, List<String> selectedSchools) {
