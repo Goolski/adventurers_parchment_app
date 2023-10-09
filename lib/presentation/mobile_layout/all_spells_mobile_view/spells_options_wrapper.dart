@@ -13,6 +13,7 @@ class SpellsOptionsWrapper extends Equatable {
     required this.schools,
     required this.durations,
     required this.concentration,
+    required this.ritual,
   });
 
   factory SpellsOptionsWrapper.empty() {
@@ -23,6 +24,7 @@ class SpellsOptionsWrapper extends Equatable {
       schools: [],
       durations: [],
       concentration: null,
+      ritual: null,
     );
   }
 
@@ -35,6 +37,7 @@ class SpellsOptionsWrapper extends Equatable {
       schools: _getAllOptionsForSchoolFromSpells(spells),
       durations: _getAllOptionsForDurationFromSpells(spells),
       concentration: null,
+      ritual: null,
     );
   }
 
@@ -44,10 +47,11 @@ class SpellsOptionsWrapper extends Equatable {
   final List<SchoolEntity> schools;
   final List<String> durations;
   final bool? concentration;
+  final bool? ritual;
 
   @override
   List<Object?> get props =>
-      [levels, castingTimes, ranges, schools, durations, concentration];
+      [levels, castingTimes, ranges, schools, durations, concentration, ritual];
   SpellsOptionsWrapper copyWith({
     List<int>? levels,
     List<String>? castingTimes,
@@ -55,6 +59,7 @@ class SpellsOptionsWrapper extends Equatable {
     List<SchoolEntity>? schools,
     List<String>? durations,
     bool? Function()? concentration,
+    bool? Function()? ritual,
   }) {
     return SpellsOptionsWrapper(
       levels: levels ?? this.levels,
@@ -64,6 +69,7 @@ class SpellsOptionsWrapper extends Equatable {
       durations: durations ?? this.durations,
       concentration:
           concentration != null ? concentration() : this.concentration,
+      ritual: ritual != null ? ritual() : this.ritual,
     );
   }
 

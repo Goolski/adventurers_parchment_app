@@ -26,9 +26,15 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                 return Column(
                   children: [
                     ThreeStateButtonWidget(
-                        onStateChanged: (currentState) =>
-                            updateRequiresConcentration(context, currentState),
-                        text: 'Concentration'),
+                      onStateChanged: (currentState) =>
+                          updateRequiresConcentration(context, currentState),
+                      text: 'Concentration',
+                    ),
+                    ThreeStateButtonWidget(
+                      onStateChanged: (currentState) =>
+                          updateIsRitual(context, currentState),
+                      text: 'Ritual',
+                    ),
                     SelectableListWidget(
                       options: state.allFilterOptions.ranges,
                       onSelected: (selectedRanges) =>
@@ -124,5 +130,11 @@ class AllSpellsMobileViewNew extends StatelessWidget {
         content: Text(message),
       ),
     );
+  }
+
+  updateIsRitual(BuildContext context, bool? currentState) {
+    context
+        .read<AllSpellsMobileViewCubit>()
+        .updateIsRitual(isRitual: currentState);
   }
 }

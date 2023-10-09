@@ -41,6 +41,7 @@ class SpellEntityWithDetails extends SpellEntity {
   final SchoolEntity school;
   @JsonKey(name: 'classes')
   final List<CharacterClassEntity> characterClasses;
+  final bool ritual;
 
   SpellEntityWithDetails({
     required this.range,
@@ -55,6 +56,7 @@ class SpellEntityWithDetails extends SpellEntity {
     required this.concentration,
     required this.school,
     required this.characterClasses,
+    required this.ritual,
   });
 
   factory SpellEntityWithDetails.fromJson(Map<String, dynamic> json) =>
