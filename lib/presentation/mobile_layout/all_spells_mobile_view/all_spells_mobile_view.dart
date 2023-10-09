@@ -3,7 +3,7 @@ import 'package:adventurers_parchment/presentation/common_widgets/spell_list_til
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controllers/all_spell_view_controller.dart';
+import '../../controllers/all_spell_view_controller.dart';
 
 class AllSpellsMobileView extends StatelessWidget {
   const AllSpellsMobileView({super.key});
