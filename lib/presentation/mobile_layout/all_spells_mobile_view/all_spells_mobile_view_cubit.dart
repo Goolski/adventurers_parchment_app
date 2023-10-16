@@ -1,4 +1,5 @@
 import 'package:adventurers_parchment/data_sources/spells/spells_data_source.dart';
+import 'package:adventurers_parchment/entities/character_class_entity.dart';
 import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/spells_options_wrapper.dart';
 import 'package:bloc/bloc.dart';
@@ -30,6 +31,22 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
   updateSelectedDurations(List<String> selectedDurations) {
     var currentFilters = state.selectedFilters;
     var newFilters = currentFilters.copyWith(durations: selectedDurations);
+    var newState = state.copyWith(selectedFilters: newFilters);
+    emit(newState);
+    filterSpells();
+  }
+
+  updateSelectedCharacterClasses(List<String> selectedCharacterClasses) {
+    var currentFilters = state.selectedFilters;
+    var selectedCharacterClassesEntities = List<CharacterClassEntity>.from(
+      state.allFilterOptions.characterClasses
+          .where(
+            (element) => selectedCharacterClasses.contains(element.name),
+          )
+          .toList(),
+    );
+    var newFilters = currentFilters.copyWith(
+        characterClasses: selectedCharacterClassesEntities);
     var newState = state.copyWith(selectedFilters: newFilters);
     emit(newState);
     filterSpells();
@@ -142,6 +159,15 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
       newSpells = newSpells
           .where((spell) =>
               spell.components.containsAll(state.selectedFilters.components))
+          .toList();
+    }
+    if (state.selectedFilters.characterClasses.isNotEmpty) {
+      newSpells = newSpells
+          .where(
+            (spell) => state.selectedFilters.characterClasses.any(
+              (selectedClass) => spell.characterClasses.contains(selectedClass),
+            ),
+          )
           .toList();
     }
     if (state.selectedFilters.concentration != null) {

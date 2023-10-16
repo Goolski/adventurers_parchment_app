@@ -1,3 +1,4 @@
+import 'package:adventurers_parchment/entities/character_class_entity.dart';
 import 'package:adventurers_parchment/entities/school_entity.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
@@ -11,6 +12,7 @@ class SpellsOptionsWrapper extends Equatable {
     required this.castingTimes,
     required this.ranges,
     required this.schools,
+    required this.characterClasses,
     required this.durations,
     required this.components,
     required this.concentration,
@@ -25,6 +27,7 @@ class SpellsOptionsWrapper extends Equatable {
       schools: [],
       durations: [],
       components: [],
+      characterClasses: [],
       concentration: null,
       ritual: null,
     );
@@ -34,6 +37,7 @@ class SpellsOptionsWrapper extends Equatable {
       {required List<SpellEntityWithDetails> spells}) {
     return SpellsOptionsWrapper(
       levels: const [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+      characterClasses: _getAllOptionsForClassesFromSpells(spells),
       castingTimes: _getAllCastingTimes(),
       ranges: _getAllRanges(),
       schools: _getAllOptionsForSchoolFromSpells(spells),
@@ -48,6 +52,7 @@ class SpellsOptionsWrapper extends Equatable {
       {required List<SpellEntityWithDetails> spells}) {
     return SpellsOptionsWrapper(
       levels: _getAllOptionsForLevelFromSpells(spells),
+      characterClasses: _getAllOptionsForClassesFromSpells(spells),
       castingTimes: _getAllOptionsForCastingTimeFromSpells(spells),
       ranges: _getAllOptionsForRangeFromSpells(spells),
       schools: _getAllOptionsForSchoolFromSpells(spells),
@@ -66,9 +71,11 @@ class SpellsOptionsWrapper extends Equatable {
   final List<SpellComponent> components;
   final bool? concentration;
   final bool? ritual;
+  final List<CharacterClassEntity> characterClasses;
 
   @override
   List<Object?> get props => [
+        characterClasses,
         levels,
         castingTimes,
         ranges,
@@ -85,6 +92,7 @@ class SpellsOptionsWrapper extends Equatable {
     List<SchoolEntity>? schools,
     List<SpellComponent>? components,
     List<String>? durations,
+    List<CharacterClassEntity>? characterClasses,
     bool? Function()? concentration,
     bool? Function()? ritual,
   }) {
@@ -94,6 +102,7 @@ class SpellsOptionsWrapper extends Equatable {
       ranges: ranges ?? this.ranges,
       schools: schools ?? this.schools,
       durations: durations ?? this.durations,
+      characterClasses: characterClasses ?? this.characterClasses,
       components: components ?? this.components,
       concentration:
           concentration != null ? concentration() : this.concentration,
@@ -207,5 +216,16 @@ class SpellsOptionsWrapper extends Equatable {
       spells,
       (object) => object.range,
     );
+  }
+
+  static List<CharacterClassEntity> _getAllOptionsForClassesFromSpells(
+      List<SpellEntityWithDetails> spells) {
+    return spells
+        .expand((element) => element.characterClasses)
+        .toSet()
+        .toList()
+        .sorted(
+          (a, b) => a.name.compareTo(b.name),
+        );
   }
 }

@@ -53,6 +53,15 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     SelectableListWidget(
+                      options: state.allFilterOptions.characterClasses
+                          .map((characterClass) => characterClass.name)
+                          .toList(),
+                      onSelected: (selectedCharacterClasses) =>
+                          updateSelectedCharacterClasses(
+                              context, selectedCharacterClasses),
+                    ),
+                    SizedBox(height: 4),
+                    SelectableListWidget(
                       options: state.allFilterOptions.levels
                           .map((e) => e.toString())
                           .toList(),
@@ -103,6 +112,12 @@ class AllSpellsMobileViewNew extends StatelessWidget {
       ),
     );
   }
+
+  updateSelectedCharacterClasses(
+          BuildContext context, List<String> selectedCharacterClasses) =>
+      context
+          .read<AllSpellsMobileViewCubit>()
+          .updateSelectedCharacterClasses(selectedCharacterClasses);
 
   updateRequiresConcentration(BuildContext context, bool? currentState) {
     context
