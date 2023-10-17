@@ -38,6 +38,7 @@ SpellEntityWithDetails _$SpellEntityWithDetailsFromJson(
       characterClasses: (json['classes'] as List<dynamic>)
           .map((e) => CharacterClassEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
+      ritual: json['ritual'] as bool,
     );
 
 Map<String, dynamic> _$SpellEntityWithDetailsToJson(
@@ -56,6 +57,7 @@ Map<String, dynamic> _$SpellEntityWithDetailsToJson(
       'concentration': instance.concentration,
       'school': instance.school,
       'classes': instance.characterClasses,
+      'ritual': instance.ritual,
     };
 
 const _$SpellComponentEnumMap = {

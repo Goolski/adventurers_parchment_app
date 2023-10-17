@@ -10,6 +10,6 @@ class _$Injector extends Injector {
   @override
   void configureGenerated() {
     final KiwiContainer container = KiwiContainer();
-    container.registerFactory((c) => SpellsDataSource(c<Dio>()));
+    container.registerFactory<SpellsDataSource>((c) => SpellsLocalDataSource());
   }
 }

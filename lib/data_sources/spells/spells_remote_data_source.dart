@@ -1,12 +1,13 @@
+import 'package:adventurers_parchment/data_sources/spells/spells_data_source.dart';
 import 'package:dio/dio.dart';
 import 'package:adventurers_parchment/entities/spell_entity.dart';
 
 const apiPath = 'https://www.dnd5eapi.co';
 
-class SpellsDataSource {
+class SpellsRemoteDataSource implements SpellsDataSource {
   final Dio _dio;
 
-  SpellsDataSource(
+  SpellsRemoteDataSource(
     this._dio,
   );
 
@@ -20,7 +21,8 @@ class SpellsDataSource {
     return spells;
   }
 
-  Future<List<SpellEntityWithDetails>> getDetailsForSpells(
+  @override
+  Future<List<SpellEntityWithDetails>> getSpellsWithDetails(
       {List<SpellEntity>? spells}) async {
     spells ??= await getSpells();
     final spellsWithDetailsFutures =

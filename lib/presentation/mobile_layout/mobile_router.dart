@@ -1,5 +1,5 @@
 import 'package:adventurers_parchment/presentation/large_layout/spell_details_view.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view.dart';
+import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_new.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/favorite_spells_mobile_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/main_menu_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/main_scaffold.dart';
@@ -21,7 +21,7 @@ final router = GoRouter(
             ),
             GoRoute(
               path: 'spells',
-              builder: (context, state) => AllSpellsMobileView(),
+              builder: (context, state) => AllSpellsMobileViewNew(),
               routes: [
                 GoRoute(
                   path: ':spellId',

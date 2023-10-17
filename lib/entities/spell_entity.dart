@@ -41,6 +41,7 @@ class SpellEntityWithDetails extends SpellEntity {
   final SchoolEntity school;
   @JsonKey(name: 'classes')
   final List<CharacterClassEntity> characterClasses;
+  final bool ritual;
 
   SpellEntityWithDetails({
     required this.range,
@@ -55,6 +56,7 @@ class SpellEntityWithDetails extends SpellEntity {
     required this.concentration,
     required this.school,
     required this.characterClasses,
+    required this.ritual,
   });
 
   factory SpellEntityWithDetails.fromJson(Map<String, dynamic> json) =>
@@ -71,6 +73,19 @@ enum SpellComponent {
   somatic,
   @JsonValue('M')
   material,
+}
+
+extension SpellComponentToString on SpellComponent {
+  String getString() {
+    switch (this) {
+      case SpellComponent.verbal:
+        return 'Verbal';
+      case SpellComponent.somatic:
+        return 'Somatic';
+      case SpellComponent.material:
+        return 'Material';
+    }
+  }
 }
 
 enum SpellLevel {
