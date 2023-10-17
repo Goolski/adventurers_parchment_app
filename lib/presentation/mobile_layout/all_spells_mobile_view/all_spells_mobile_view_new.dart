@@ -67,6 +67,14 @@ class AllSpellsMobileViewNew extends StatelessWidget {
                       ),
                     ),
                     if (state.availableFilters
+                        .firstWhere((element) => element.thing == '🔎')
+                        .isSelected) ...[
+                      TextField(
+                        onChanged: (value) =>
+                            onSearchStringChanged(context, value),
+                      ),
+                    ],
+                    if (state.availableFilters
                         .firstWhere((element) => element.thing == 'Range')
                         .isSelected) ...[
                       SelectableListWidget(
@@ -170,6 +178,10 @@ class AllSpellsMobileViewNew extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  onSearchStringChanged(BuildContext context, String value) {
+    context.read<AllSpellsMobileViewCubit>().onSearchStringChanged(value);
   }
 
   List<SelectableWidgetButton> getAvailableFilters(

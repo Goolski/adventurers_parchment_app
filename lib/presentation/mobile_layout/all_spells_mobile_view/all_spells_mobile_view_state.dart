@@ -9,8 +9,10 @@ class AllSpellsMobileViewState extends Equatable {
   final SpellsOptionsWrapper allFilterOptions;
   final SpellsOptionsWrapper selectedFilters;
   final List<SpellEntityWithDetails> filteredSpells;
+  final String searchString;
 
   AllSpellsMobileViewState({
+    required this.searchString,
     required this.availableFilters,
     required this.allFilterOptions,
     required this.selectedFilters,
@@ -18,15 +20,22 @@ class AllSpellsMobileViewState extends Equatable {
   });
 
   @override
-  List<Object> get props =>
-      [allFilterOptions, selectedFilters, filteredSpells, availableFilters];
+  List<Object> get props => [
+        allFilterOptions,
+        selectedFilters,
+        filteredSpells,
+        availableFilters,
+        searchString
+      ];
   AllSpellsMobileViewState copyWith({
+    String? searchString,
     SpellsOptionsWrapper? allFilterOptions,
     SpellsOptionsWrapper? selectedFilters,
     List<SpellEntityWithDetails>? filteredSpells,
     List<SelectableDTO>? availableFilters,
   }) {
     return AllSpellsMobileViewState(
+      searchString: searchString ?? this.searchString,
       availableFilters: availableFilters ?? this.availableFilters,
       allFilterOptions: allFilterOptions ?? this.allFilterOptions,
       selectedFilters: selectedFilters ?? this.selectedFilters,
