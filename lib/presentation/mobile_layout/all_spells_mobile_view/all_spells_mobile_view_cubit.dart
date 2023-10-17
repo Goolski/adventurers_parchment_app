@@ -8,7 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'all_spells_mobile_view_state.dart';
 
 const allFilterStrings = [
-  '🔎',
+  'Search',
   'Range',
   'Duration',
   'Classes',
