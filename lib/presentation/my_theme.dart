@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 final ThemeData theme = ThemeData(
   fontFamily: fontFamily,
   textTheme: textTheme,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black).copyWith(
+    primary: Colors.black,
+  ),
   pageTransitionsTheme: pageTransitionTheme,
 );
 
