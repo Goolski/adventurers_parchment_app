@@ -1,24 +1,52 @@
 import 'package:adventurers_parchment/data_sources/spells/spells_data_source.dart';
 import 'package:adventurers_parchment/entities/character_class_entity.dart';
 import 'package:adventurers_parchment/entities/spell_entity.dart';
+import 'package:adventurers_parchment/presentation/DTOs/selectable_DTO.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/spells_options_wrapper.dart';
 import 'package:bloc/bloc.dart';
 
 import 'all_spells_mobile_view_state.dart';
 
+const allFilterStrings = [
+  'Range',
+  'Duration',
+  'Classes',
+  'Casting Time',
+  'Level',
+  'School',
+  'Components',
+];
+
 class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
   AllSpellsMobileViewCubit(
     this._spellsDataSource,
-  ) : super(AllSpellsMobileViewState(
-          selectedFilters: SpellsOptionsWrapper.empty(),
-          allFilterOptions: SpellsOptionsWrapper.empty(),
-          filteredSpells: const [],
-        )) {
+  ) : super(
+          AllSpellsMobileViewState(
+            selectedFilters: SpellsOptionsWrapper.empty(),
+            allFilterOptions: SpellsOptionsWrapper.empty(),
+            filteredSpells: const [],
+            availableFilters: allFilterStrings
+                .map(
+                    (option) => SelectableDTO(thing: option, isSelected: false))
+                .toList(),
+          ),
+        ) {
     _init();
   }
 
   final SpellsDataSource _spellsDataSource;
   late final List<SpellEntityWithDetails> _allSpells;
+
+  selectFilter(SelectableDTO filter) {
+    final indexOfFilter = state.availableFilters.indexOf(filter);
+    SelectableDTO newFilterState = filter.copyWith(
+      isSelected: !filter.isSelected,
+    );
+    final newAvailableFilters = List<SelectableDTO>.from(state.availableFilters)
+      ..replaceRange(indexOfFilter, indexOfFilter + 1, [newFilterState]);
+    final newState = state.copyWith(availableFilters: newAvailableFilters);
+    emit(newState);
+  }
 
   updateSelectedRanges(List<String> selectedRanges) {
     var currentFilters = state.selectedFilters;
@@ -195,8 +223,23 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
 
     emit(
       AllSpellsMobileViewState(
+        availableFilters: state.availableFilters,
         selectedFilters: SpellsOptionsWrapper.empty(),
         allFilterOptions: options,
+        filteredSpells: _allSpells,
+      ),
+    );
+  }
+
+  void resetFilters() {
+    emit(
+      AllSpellsMobileViewState(
+        availableFilters: allFilterStrings
+            .map((option) => SelectableDTO(thing: option, isSelected: false))
+            .toList(),
+        selectedFilters: SpellsOptionsWrapper.empty(),
+        allFilterOptions:
+            SpellsOptionsWrapper.defaultOptions(spells: _allSpells),
         filteredSpells: _allSpells,
       ),
     );

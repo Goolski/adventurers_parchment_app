@@ -2,6 +2,7 @@ import 'package:adventurers_parchment/data_sources/spells/spells_local_data_sour
 import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/selectable_list_widget.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/three_state_button_widget.dart';
+import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,70 +27,128 @@ class AllSpellsMobileViewNew extends StatelessWidget {
               builder: (context, state) {
                 return Column(
                   children: [
-                    ThreeStateButtonWidget(
-                      onStateChanged: (currentState) =>
-                          updateRequiresConcentration(context, currentState),
-                      text: 'Concentration',
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (state.availableFilters
+                              .where((element) => element.isSelected)
+                              .isNotEmpty) ...[
+                            SelectableWidgetButton(
+                              onPressed: () => context
+                                  .read<AllSpellsMobileViewCubit>()
+                                  .resetFilters(),
+                              text: 'x',
+                            ),
+                          ],
+                          ...getAvailableFilters(state, context),
+                          ThreeStateButtonWidget(
+                            onStateChanged: (currentState) =>
+                                updateRequiresConcentration(
+                                    context, currentState),
+                            text: 'Concentration',
+                          ),
+                          ThreeStateButtonWidget(
+                            onStateChanged: (currentState) =>
+                                updateIsRitual(context, currentState),
+                            text: 'Ritual',
+                          ),
+                        ]
+                            .expand(
+                              (element) => [
+                                element,
+                                SizedBox(
+                                  width: 8.0,
+                                )
+                              ],
+                            )
+                            .toList(),
+                      ),
                     ),
-                    SizedBox(height: 4),
-                    ThreeStateButtonWidget(
-                      onStateChanged: (currentState) =>
-                          updateIsRitual(context, currentState),
-                      text: 'Ritual',
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.ranges,
-                      onSelected: (selectedRanges) =>
-                          updateSelectedRanges(context, selectedRanges),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.components
-                          .map((e) => e.getString())
-                          .toList(),
-                      onSelected: (selectedComponents) =>
-                          updateSelectedComponents(context, selectedComponents),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.characterClasses
-                          .map((characterClass) => characterClass.name)
-                          .toList(),
-                      onSelected: (selectedCharacterClasses) =>
-                          updateSelectedCharacterClasses(
-                              context, selectedCharacterClasses),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.levels
-                          .map((e) => e.toString())
-                          .toList(),
-                      onSelected: (selectedLevels) =>
-                          updateSelectedLevels(context, selectedLevels),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.schools
-                          .map((e) => e.name)
-                          .toList(),
-                      onSelected: (selectedSchools) =>
-                          updateSelectedSchools(context, selectedSchools),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.durations,
-                      onSelected: (durations) =>
-                          updateSelectedDurations(context, durations),
-                    ),
-                    SizedBox(height: 4),
-                    SelectableListWidget(
-                      options: state.allFilterOptions.castingTimes,
-                      onSelected: (selectedCastingTimes) =>
-                          updateSelctedCastingTimes(
-                              context, selectedCastingTimes),
-                    ),
-                  ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'Range')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.ranges,
+                        onSelected: (selectedRanges) =>
+                            updateSelectedRanges(context, selectedRanges),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'Components')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.components
+                            .map((e) => e.getString())
+                            .toList(),
+                        onSelected: (selectedComponents) =>
+                            updateSelectedComponents(
+                                context, selectedComponents),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'Classes')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.characterClasses
+                            .map((characterClass) => characterClass.name)
+                            .toList(),
+                        onSelected: (selectedCharacterClasses) =>
+                            updateSelectedCharacterClasses(
+                                context, selectedCharacterClasses),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'Level')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.levels
+                            .map((e) => e.toString())
+                            .toList(),
+                        onSelected: (selectedLevels) =>
+                            updateSelectedLevels(context, selectedLevels),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'School')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.schools
+                            .map((e) => e.name)
+                            .toList(),
+                        onSelected: (selectedSchools) =>
+                            updateSelectedSchools(context, selectedSchools),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere((element) => element.thing == 'Duration')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.durations,
+                        onSelected: (durations) =>
+                            updateSelectedDurations(context, durations),
+                      ),
+                    ],
+                    if (state.availableFilters
+                        .firstWhere(
+                            (element) => element.thing == 'Casting Time')
+                        .isSelected) ...[
+                      SelectableListWidget(
+                        options: state.allFilterOptions.castingTimes,
+                        onSelected: (selectedCastingTimes) =>
+                            updateSelctedCastingTimes(
+                                context, selectedCastingTimes),
+                      ),
+                    ],
+                  ]
+                      .expand((element) => [
+                            element,
+                            SizedBox(
+                              height: 4.0,
+                            )
+                          ])
+                      .toList(),
                 );
               },
             ),
@@ -111,6 +170,20 @@ class AllSpellsMobileViewNew extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<SelectableWidgetButton> getAvailableFilters(
+      AllSpellsMobileViewState state, BuildContext context) {
+    return state.availableFilters
+        .where((element) => !element.isSelected)
+        .map(
+          (e) => SelectableWidgetButton(
+            text: e.thing,
+            onPressed: () =>
+                context.read<AllSpellsMobileViewCubit>().selectFilter(e),
+          ),
+        )
+        .toList();
   }
 
   updateSelectedCharacterClasses(
