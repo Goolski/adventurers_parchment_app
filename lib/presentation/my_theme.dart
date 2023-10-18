@@ -7,6 +7,18 @@ final ThemeData theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.black).copyWith(
     primary: Colors.black,
   ),
+  canvasColor: Colors.transparent,
+  chipTheme: ChipThemeData(
+    backgroundColor: Colors.transparent,
+    showCheckmark: false,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(
+        color: Colors.black,
+        width: 1,
+        style: BorderStyle.solid,
+      ),
+    ),
+  ),
   pageTransitionsTheme: pageTransitionTheme,
 );
 
