@@ -87,9 +87,13 @@ class CharactersLocalDataSource {
   Future<Set<CharacterEntity>> _getAllCharacters() async {
     final box = await Hive.openBox(charactersBox);
     final allCharactersJson = box.get(charactersKey);
-    final allCharacters = _decodeCharactersFromJson(allCharactersJson);
     await box.close();
-    return allCharacters;
+    if (allCharactersJson == null) {
+      return {};
+    } else {
+      final allCharacters = _decodeCharactersFromJson(allCharactersJson);
+      return allCharacters;
+    }
   }
 
   Future<void> _updateCharacters(
@@ -109,11 +113,5 @@ class CharactersLocalDataSource {
 
   String _encodeCharactersIntoJson(Iterable<CharacterEntity> characters) {
     return jsonEncode(characters.toList());
-  }
-
-  Future<void> _initiateCharactersDataSource() async {
-    final box = await Hive.openBox(charactersBox);
-    await box.put(charactersKey, jsonEncode(''));
-    await box.close();
   }
 }
