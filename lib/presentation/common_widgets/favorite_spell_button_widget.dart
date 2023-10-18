@@ -46,7 +46,7 @@ class FavoriteSpellController extends ChangeNotifier {
 
   Future<void> init() async {
     final stream =
-        await localDataSource.getSingleFavouriteSpellStream(spell: spell);
+        await localDataSource.getSingleFavoriteSpellStream(spell: spell);
     str = stream.listen((event) {
       if (event == null) {
         _setFavoriteStateTo(false);
@@ -60,7 +60,7 @@ class FavoriteSpellController extends ChangeNotifier {
     if (_isFavorite) {
       localDataSource.deleteFavoriteSpell(spell: spell);
     } else {
-      localDataSource.addFavouriteSpell(spell: spell);
+      localDataSource.addFavoriteSpell(spell: spell);
     }
   }
 
