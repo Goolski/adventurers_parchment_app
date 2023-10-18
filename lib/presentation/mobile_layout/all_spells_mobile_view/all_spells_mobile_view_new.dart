@@ -3,7 +3,6 @@ import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/presentation/DTOs/selectable_DTO.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/selectable_list_widget.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/three_state_button_widget.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -284,5 +283,39 @@ class AllSpellsMobileViewNew extends StatelessWidget {
       BuildContext context, List<String> selectedComponentsNames) {
     context.read<AllSpellsMobileViewCubit>().updateSelectedComponents(
         spellComponentsNames: selectedComponentsNames);
+  }
+}
+
+class SelectableWidgetButton extends StatelessWidget {
+  const SelectableWidgetButton({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    this.isSelected = false,
+  });
+
+  final String text;
+  final Function() onPressed;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => onPressed(),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 32),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          decoration: BoxDecoration(
+            color: isSelected ? Color(0x55000000) : Colors.transparent,
+            border: Border.all(),
+          ),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
   }
 }

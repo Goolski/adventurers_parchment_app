@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../entities/spell_entity.dart';
-import '../../large_layout/spell_details_view.dart';
+import '../../mobile_layout/spell_details_view.dart';
 
 class SpellListTileWidget extends StatelessWidget {
   final SpellEntity spell;
