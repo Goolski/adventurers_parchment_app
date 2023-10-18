@@ -1,3 +1,4 @@
+import 'package:adventurers_parchment/features/characters/list_of_characters_wiget/list_of_characters_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,6 +29,7 @@ class MainMenuView extends StatelessWidget {
               ),
               Column(
                 children: [
+                  ListOfCharactersWidget(),
                   TextButton(
                     onPressed: () => context.go('/create_character'),
                     child: Text(

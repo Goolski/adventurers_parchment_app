@@ -8,6 +8,8 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:kiwi/kiwi.dart';
 
+import '../features/characters/list_of_characters_wiget/list_of_characters_widget_cubit.dart';
+
 part 'di.g.dart';
 
 abstract class Injector {
@@ -47,6 +49,7 @@ abstract class Injector {
     );
   }
 
+  @Register.factory(ListOfCharactersWidgetCubit)
   @Register.factory(CreateCharacterCubit)
   @Register.factory(CharactersLocalDataSource)
   @Register.factory(SpellsDataSource, from: SpellsLocalDataSource)
