@@ -29,6 +29,13 @@ class MainMenuView extends StatelessWidget {
               Column(
                 children: [
                   TextButton(
+                    onPressed: () => context.go('/create_character'),
+                    child: Text(
+                      'Create Character',
+                      style: textButtonTextStyle,
+                    ),
+                  ),
+                  TextButton(
                     onPressed: () => context.go('/spells'),
                     child: Text(
                       'All the spells I know?',

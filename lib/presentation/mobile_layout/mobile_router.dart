@@ -1,5 +1,6 @@
 import 'package:adventurers_parchment/presentation/large_layout/spell_details_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_new.dart';
+import 'package:adventurers_parchment/presentation/mobile_layout/create_character_view/create_character_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/favorite_spells_mobile_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/main_menu_view.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/main_scaffold.dart';
@@ -13,7 +14,6 @@ final router = GoRouter(
         GoRoute(
           path: '/',
           builder: (context, state) => MainMenuView(),
-          // builder: (context, state) => MainMenuView(),
           routes: [
             GoRoute(
               path: 'spells/favorite',
@@ -30,6 +30,10 @@ final router = GoRouter(
                   ),
                 ),
               ],
+            ),
+            GoRoute(
+              path: 'create_character',
+              builder: (context, state) => CreateCharacterView(),
             ),
             GoRoute(
               path: 'licenses',
