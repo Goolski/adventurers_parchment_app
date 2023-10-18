@@ -3,8 +3,6 @@ import 'package:adventurers_parchment/common/filtering/list_selectable_widget/li
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../presentation/common_widgets/selectable_widget_button.dart';
-
 class ListSelectableFilterWidget<T, U> extends StatelessWidget {
   final List<U> options;
   final U Function(T object) aquireProperty;
@@ -30,10 +28,10 @@ class ListSelectableFilterWidget<T, U> extends StatelessWidget {
               .map(
                 (elem) => Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: SelectableWidgetButton(
-                    onPressed: () => onElementPressed(context, elem),
-                    text: acquireText(elem.element),
-                    isSelected: elem.isSelected,
+                  child: FilterChip(
+                    onSelected: (_) => onElementPressed(context, elem),
+                    label: Text(acquireText(elem.element)),
+                    selected: elem.isSelected,
                   ),
                 ),
               )
