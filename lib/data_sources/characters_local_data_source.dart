@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:adventurers_parchment/entities/character_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -34,10 +35,10 @@ class CharactersLocalDataSource {
   }
 
   Stream<CharacterEntity> readById({required String id}) {
-    final streamForCharacter = _getAllCharactersStream().asyncMap(
-      (setOfCharacters) =>
-          setOfCharacters.firstWhere((character) => character.id == id),
-    );
+    final streamForCharacter = _getAllCharactersStream()
+        .asyncMap((setOfCharacters) =>
+            setOfCharacters.firstWhereOrNull((element) => element.id == id))
+        .whereNotNull();
 
     return streamForCharacter;
   }
@@ -46,7 +47,8 @@ class CharactersLocalDataSource {
     var existingCharacters =
         Set<CharacterEntity>.from(await _getAllCharacters());
     existingCharacters.removeWhere(
-        (existingCharacter) => existingCharacter.id == updatedCharacter.id);
+      (existingCharacter) => existingCharacter.id == updatedCharacter.id,
+    );
     existingCharacters.add(updatedCharacter);
     await _updateCharacters(updatedCharacters: existingCharacters);
   }
@@ -65,12 +67,16 @@ class CharactersLocalDataSource {
 
     Hive.openBox(charactersBox).then(
       (box) {
+        final firstValue = box.get(charactersKey);
+        behaviorSubject.add(_decodeCharactersFromJson(firstValue));
+
         final charactersStream = box.watch(key: charactersKey).asyncMap(
               (boxEvent) => _decodeCharactersFromJson(boxEvent.value),
             );
 
-        final characterStreamSub =
-            charactersStream.listen((event) => behaviorSubject.add(event));
+        final characterStreamSub = charactersStream.listen(
+          (event) => behaviorSubject.add(event),
+        );
 
         behaviorSubject.doOnCancel(
           () {
