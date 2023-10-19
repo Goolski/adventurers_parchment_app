@@ -1,6 +1,7 @@
 import 'package:adventurers_parchment/data_sources/characters_local_data_source.dart';
 import 'package:adventurers_parchment/data_sources/spells/spells_data_source.dart';
 import 'package:adventurers_parchment/data_sources/spells/spells_local_data_source.dart';
+import 'package:adventurers_parchment/features/characters/add_spell_to_characters_widget/add_spell_to_characters_widget_cubit.dart';
 import 'package:adventurers_parchment/presentation/mobile_layout/create_character_view/create_character_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
@@ -49,6 +50,7 @@ abstract class Injector {
     );
   }
 
+  @Register.factory(AddSpellToCharactersWidgetCubit)
   @Register.factory(ListOfCharactersWidgetCubit)
   @Register.factory(CreateCharacterCubit)
   @Register.factory(CharactersLocalDataSource)

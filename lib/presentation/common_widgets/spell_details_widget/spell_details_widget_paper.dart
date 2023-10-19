@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:adventurers_parchment/features/characters/add_spell_to_characters_widget/add_spell_to_characters_widget.dart';
 import 'package:adventurers_parchment/presentation/common_widgets/favorite_spell_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class SpellDetailsWidgetPaper extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(child: SpellNameWidget(spell: spell)),
+            AddSpellToCharactersWidget(spellId: spell.index),
             FavoriteSpellButtonWidget(
               spell: spell,
             )
