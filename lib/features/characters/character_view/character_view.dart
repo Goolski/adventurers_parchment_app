@@ -27,20 +27,21 @@ class CharacterView extends StatelessWidget {
                 Text(
                   character.name,
                 ),
-                Wrap(
-                  children: character.characterClasses
-                      .map(
-                        (characterClass) => Chip(
-                          label: Text(characterClass.name),
-                        ),
-                      )
-                      .toList(),
+                if (character.characterClasses.isNotEmpty) ...[
+                  Text('Classes:'),
+                  Wrap(
+                    children: character.characterClasses
+                        .map(
+                          (characterClass) => Chip(
+                            label: Text(characterClass.name),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ],
+                SingleChildScrollView(
+                  child: ListOfCharacterSpellsWidget(character: character),
                 ),
-                const Text(
-                  'Spells',
-                  textAlign: TextAlign.center,
-                ),
-                ListOfCharacterSpellsWidget(character: character),
               ],
             ),
           );
