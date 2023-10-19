@@ -25,16 +25,11 @@ class CharactersLocalDataSource {
     }
   }
 
-  Stream<Set<String>> getAllIds() {
-    final streamOfCharacterId = _getAllCharactersStream().asyncMap(
-      (setOfCharacters) =>
-          setOfCharacters.map((character) => character.id).toSet(),
-    );
-
-    return streamOfCharacterId;
+  Stream<Set<CharacterEntity>> getAllCharacters() {
+    return _getAllCharactersStream();
   }
 
-  Stream<CharacterEntity> readById({required String id}) {
+  Stream<CharacterEntity> getSingleCharacter({required String id}) {
     final streamForCharacter = _getAllCharactersStream()
         .asyncMap((setOfCharacters) =>
             setOfCharacters.firstWhereOrNull((element) => element.id == id))
