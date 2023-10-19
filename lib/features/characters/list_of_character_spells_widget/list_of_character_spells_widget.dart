@@ -1,4 +1,3 @@
-import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +24,7 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
       child: BlocBuilder<ListOfCharacterSpellsWidgetCubit,
           ListOfCharacterSpellsWidgetState>(
         builder: (context, state) {
+          bool isEditing = state == ListOfCharacterSpellsWidgetState.edit;
           final cubit = context.read<ListOfCharacterSpellsWidgetCubit>();
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -41,25 +41,25 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
               ),
               SpellProviderWidget(
                 spellIds: character.spellIds,
-                builder: (spells) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: spells
-                          .map(
-                            (spell) => ListTile(
-                              title: Text(spell.name),
-                              trailing:
-                                  getDeleteSpellButton(state, context, spell),
-                              onTap: () => context.go(
-                                '/character/${character.id}/spell/${spell.index}',
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ],
+                builder: (spells) => Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: spells
+                      .map(
+                        (spell) => InputChip(
+                          label: Text(spell.name),
+                          onDeleted: isEditing
+                              ? () => onDeleteSpellPressed(
+                                    context: context,
+                                    spellId: spell.index,
+                                  )
+                              : null,
+                          onPressed: () => context.go(
+                            '/character/${character.id}/spell/${spell.index}',
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
                 spellsDataSource: Injector.resolve<SpellsDataSource>(),
               ),
@@ -68,21 +68,6 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
         },
       ),
     );
-  }
-
-  IconButton? getDeleteSpellButton(ListOfCharacterSpellsWidgetState state,
-      BuildContext context, SpellEntityWithDetails spell) {
-    if (state == ListOfCharacterSpellsWidgetState.edit) {
-      return IconButton(
-        icon: const Icon(Icons.delete),
-        onPressed: () => onDeleteSpellPressed(
-          context: context,
-          spellId: spell.index,
-        ),
-      );
-    } else {
-      return null;
-    }
   }
 
   IconButton getIconButtonBasedOnState(
