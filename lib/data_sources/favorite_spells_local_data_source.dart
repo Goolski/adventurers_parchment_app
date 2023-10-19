@@ -12,6 +12,9 @@ const favoriteSpellsBox = 'favorite-spells';
 const favoriteSpellsKey = 'fav-spells';
 
 class FavoriteSpellsLocalDataSource {
+  FavoriteSpellsLocalDataSource() {
+    _initiateFavoriteSpells();
+  }
   Future<void> addFavoriteSpell({required SpellEntity spell}) async {
     var spellSet = await _getFavoriteSpells();
     spellSet.add(spell);
@@ -106,6 +109,8 @@ class FavoriteSpellsLocalDataSource {
 
   Future<void> _initiateFavoriteSpells() async {
     final box = await Hive.openBox(favoriteSpellsBox);
-    await box.put(favoriteSpellsKey, jsonEncode([]));
+    if (box.get(favoriteSpellsKey) == null) {
+      await box.put(favoriteSpellsKey, jsonEncode([]));
+    }
   }
 }
