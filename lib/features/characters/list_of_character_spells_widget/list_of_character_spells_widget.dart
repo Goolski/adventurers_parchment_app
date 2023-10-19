@@ -1,3 +1,4 @@
+import 'package:adventurers_parchment/entities/spell_entity.dart';
 import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,32 +42,56 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
               ),
               SpellProviderWidget(
                 spellIds: character.spellIds,
-                builder: (spells) => Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: spells
-                      .map(
-                        (spell) => InputChip(
-                          label: Text(spell.name),
-                          onDeleted: isEditing
-                              ? () => onDeleteSpellPressed(
-                                    context: context,
-                                    spellId: spell.index,
-                                  )
-                              : null,
-                          onPressed: () => context.go(
-                            '/character/${character.id}/spell/${spell.index}',
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
+                builder: (spells) {
+                  final mapOfSpellsByLevel = splitSpellsByLevel(spells);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: mapOfSpellsByLevel.keys
+                        .map(
+                          (level) => [
+                            Text(
+                              level.toString(),
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            getWrappedSpells(
+                                mapOfSpellsByLevel[level]!, isEditing, context),
+                            SizedBox()
+                          ],
+                        )
+                        .expand((element) => element)
+                        .toList(),
+                  );
+                },
                 spellsDataSource: Injector.resolve<SpellsDataSource>(),
               ),
             ],
           );
         },
       ),
+    );
+  }
+
+  Wrap getWrappedSpells(List<SpellEntityWithDetails> spells, bool isEditing,
+      BuildContext context) {
+    return Wrap(
+      spacing: 4,
+      runSpacing: 4,
+      children: spells
+          .map(
+            (spell) => InputChip(
+              label: Text(spell.name),
+              onDeleted: isEditing
+                  ? () => onDeleteSpellPressed(
+                        context: context,
+                        spellId: spell.index,
+                      )
+                  : null,
+              onPressed: () => context.go(
+                '/character/${character.id}/spell/${spell.index}',
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 
@@ -86,6 +111,20 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
           onPressed: () => cubit.onDonePressed(),
         );
     }
+  }
+
+  Map<int, List<SpellEntityWithDetails>> splitSpellsByLevel(
+      List<SpellEntityWithDetails> spells) {
+    var map = Map<int, List<SpellEntityWithDetails>>();
+    var allLevels = spells.map((spell) => spell.level).toSet().toList();
+    allLevels.sort();
+    allLevels.forEach((level) {
+      map[level] = [];
+    });
+    for (final spell in spells) {
+      map[spell.level]!.add(spell);
+    }
+    return map;
   }
 
   onDeleteSpellPressed({
