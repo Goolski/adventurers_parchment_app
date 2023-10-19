@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../DTOs/selectable_DTO.dart';
+import '../../../presentation/DTOs/selectable_DTO.dart';
 
 class CreateCharacterState extends Equatable {
   final String characterName;

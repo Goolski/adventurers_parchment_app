@@ -1,9 +1,9 @@
-import 'package:adventurers_parchment/presentation/mobile_layout/create_character_view/create_character_cubit.dart';
+import 'package:adventurers_parchment/features/characters/create_character_view/create_character_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../di/di.dart';
-import '../../DTOs/selectable_DTO.dart';
+import '../../../presentation/DTOs/selectable_DTO.dart';
 import 'create_character_state.dart';
 
 class CreateCharacterView extends StatelessWidget {

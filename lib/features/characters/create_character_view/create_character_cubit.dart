@@ -39,7 +39,6 @@ class CreateCharacterCubit extends Cubit<CreateCharacterState> {
 
     final newState = state.copyWith(characterClasses: updatedCharacterClasses);
     emit(newState);
-    print(state);
   }
 
   onSaveCharacterPressed() async {
@@ -50,8 +49,10 @@ class CreateCharacterCubit extends Cubit<CreateCharacterState> {
       ),
     );
 
-    var selectedClasses = defaultListOfCharacterClasses
-        .where((element) => state.characterClasses == element.name)
+    var selectedClasses = state.characterClasses
+        .where((element) => element.isSelected)
+        .map((e) => defaultListOfCharacterClasses
+            .firstWhere((element) => element.name == e.thing))
         .toList();
     final newCharacter = CharacterEntity.empty(
         characterName: state.characterName, characterClasses: selectedClasses);
