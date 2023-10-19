@@ -11,12 +11,11 @@ class CharacterEntity {
   final List<CharacterClassEntity> characterClasses;
   final List<String> spellIds;
 
-  CharacterEntity({
-    required this.id,
-    required this.name,
-    required this.characterClasses,
-    required this.spellIds,
-  });
+  CharacterEntity(
+      {required this.id,
+      required this.name,
+      required this.characterClasses,
+      required this.spellIds});
 
   factory CharacterEntity.empty({
     required String characterName,
@@ -35,4 +34,16 @@ class CharacterEntity {
 
   factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
       _$CharacterEntityFromJson(json);
+  CharacterEntity copyWith(
+      {String? id,
+      String? name,
+      List<CharacterClassEntity>? characterClasses,
+      List<String>? spellIds}) {
+    return CharacterEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      characterClasses: characterClasses ?? this.characterClasses,
+      spellIds: spellIds ?? this.spellIds,
+    );
+  }
 }

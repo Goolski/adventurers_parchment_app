@@ -1,7 +1,8 @@
+import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'character_view_cubit.dart';
+import '../list_of_character_spells_widget/list_of_character_spells_widget.dart';
 
 class CharacterView extends StatelessWidget {
   const CharacterView({
@@ -10,29 +11,38 @@ class CharacterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CharacterViewCubit, CharacterViewState>(
+    return BlocBuilder<CharacterCubit, CharacterState>(
       builder: (context, state) {
         final character = state.character;
         if (character == null) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          return Column(
-            children: [
-              Text(character.name),
-              Wrap(
-                children: character.characterClasses
-                    .map(
-                      (characterClass) => FilterChip(
-                          label: Text(characterClass.name), onSelected: (_) {}),
-                    )
-                    .toList(),
-              ),
-              Column(
-                children: character.spellIds.map((e) => Text(e)).toList(),
-              )
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  character.name,
+                ),
+                Wrap(
+                  children: character.characterClasses
+                      .map(
+                        (characterClass) => Chip(
+                          label: Text(characterClass.name),
+                        ),
+                      )
+                      .toList(),
+                ),
+                const Text(
+                  'Spells',
+                  textAlign: TextAlign.center,
+                ),
+                ListOfCharacterSpellsWidget(character: character),
+              ],
+            ),
           );
         }
       },
