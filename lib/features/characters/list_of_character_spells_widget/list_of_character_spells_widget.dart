@@ -43,23 +43,26 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
               SpellProviderWidget(
                 spellIds: character.spellIds,
                 builder: (spells) {
-                  final mapOfSpellsByLevel = splitSpellsByLevel(spells);
+                  final mapOfSpellsByLevel =
+                      SpellEntityWithDetails.splitSpellsByLevel(spells);
+                  final levels = mapOfSpellsByLevel.keys;
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: mapOfSpellsByLevel.keys
-                        .map(
-                          (level) => [
-                            Text(
-                              level.toString(),
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                            getWrappedSpells(
-                                mapOfSpellsByLevel[level]!, isEditing, context),
-                            SizedBox()
-                          ],
-                        )
-                        .expand((element) => element)
-                        .toList(),
+                    children: levels.map(
+                      (level) {
+                        //Null check is required for Maps
+                        final spellsOfCurrentLevel = mapOfSpellsByLevel[level]!;
+                        return SpellsGroupedBySomethingWidget(
+                          something: level.toString(),
+                          spells: spellsOfCurrentLevel,
+                          isEditing: isEditing,
+                          onDeletePressed: (spellId) =>
+                              onSpellDelete(context: context, spellId: spellId),
+                          onSpellPressed: (spellId) => onSpellPressed(
+                              context: context, spellId: spellId),
+                        );
+                      },
+                    ).toList(),
                   );
                 },
                 spellsDataSource: Injector.resolve<SpellsDataSource>(),
@@ -68,30 +71,6 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-
-  Wrap getWrappedSpells(List<SpellEntityWithDetails> spells, bool isEditing,
-      BuildContext context) {
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      children: spells
-          .map(
-            (spell) => InputChip(
-              label: Text(spell.name),
-              onDeleted: isEditing
-                  ? () => onDeleteSpellPressed(
-                        context: context,
-                        spellId: spell.index,
-                      )
-                  : null,
-              onPressed: () => context.go(
-                '/character/${character.id}/spell/${spell.index}',
-              ),
-            ),
-          )
-          .toList(),
     );
   }
 
@@ -113,24 +92,72 @@ class ListOfCharacterSpellsWidget extends StatelessWidget {
     }
   }
 
-  Map<int, List<SpellEntityWithDetails>> splitSpellsByLevel(
-      List<SpellEntityWithDetails> spells) {
-    var map = Map<int, List<SpellEntityWithDetails>>();
-    var allLevels = spells.map((spell) => spell.level).toSet().toList();
-    allLevels.sort();
-    allLevels.forEach((level) {
-      map[level] = [];
-    });
-    for (final spell in spells) {
-      map[spell.level]!.add(spell);
-    }
-    return map;
-  }
-
-  onDeleteSpellPressed({
+  onSpellDelete({
     required BuildContext context,
     required String spellId,
   }) {
     context.read<CharacterCubit>().removeSpell(spellId);
+  }
+
+  onSpellPressed({
+    required BuildContext context,
+    required String spellId,
+  }) {
+    context.go(
+      '/character/${character.id}/spell/${spellId}',
+    );
+  }
+}
+
+class SpellsGroupedBySomethingWidget extends StatelessWidget {
+  const SpellsGroupedBySomethingWidget({
+    super.key,
+    required this.something,
+    required this.spells,
+    required this.isEditing,
+    required this.onDeletePressed,
+    required this.onSpellPressed,
+  });
+
+  final List<SpellEntityWithDetails> spells;
+  final String something;
+  final bool isEditing;
+  final Function(String spellId) onDeletePressed;
+  final Function(String spellId) onSpellPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          something,
+          style: Theme.of(context).textTheme.labelLarge,
+        ),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: spells
+                .map(
+                  (spell) => InputChip(
+                    label: Text(spell.name),
+                    onDeleted:
+                        isEditing ? () => onDeletePressed(spell.index) : null,
+                    onPressed: () => onSpellPressed(
+                      spell.index,
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        )
+      ],
+    );
   }
 }

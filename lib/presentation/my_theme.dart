@@ -20,6 +20,12 @@ final ThemeData theme = ThemeData(
       ),
     ),
   ),
+  dividerTheme: DividerThemeData(
+    color: Color(0xAA000000),
+    indent: 2,
+    endIndent: 2,
+    thickness: 2,
+  ),
   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   pageTransitionsTheme: pageTransitionTheme,
 );
