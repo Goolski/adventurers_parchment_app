@@ -20,21 +20,12 @@ class ListOfCharactersWidgetCubit extends Cubit<ListOfCharactersWidgetState> {
   final CharactersLocalDataSource charactersLocalDataSource;
 
   _init() {
-    final allIdsStream = charactersLocalDataSource.getAllIds();
-    streamSub = allIdsStream.listen(
-      (setOfIds) async {
-        final allCharacters = await _getAllCharacters(setOfIds);
-        emit(ListOfCharactersWidgetState(characters: allCharacters));
+    final allCharactersStream = charactersLocalDataSource.getAllCharacters();
+    streamSub = allCharactersStream.listen(
+      (setOfCharacters) async {
+        emit(ListOfCharactersWidgetState(characters: setOfCharacters.toList()));
       },
     );
-  }
-
-  Future<List<CharacterEntity>> _getAllCharacters(Set<String> setOfIds) {
-    final iterableOfFutures = setOfIds.map(
-      (e) => charactersLocalDataSource.readById(id: e).first,
-    );
-    final listOfCharacters = Future.wait(iterableOfFutures);
-    return listOfCharacters;
   }
 
   @override
