@@ -64,6 +64,20 @@ class SpellEntityWithDetails extends SpellEntity {
 
   @override
   Map<String, dynamic> toJson() => _$SpellEntityWithDetailsToJson(this);
+
+  static Map<int, List<SpellEntityWithDetails>> splitSpellsByLevel(
+      List<SpellEntityWithDetails> spells) {
+    var map = Map<int, List<SpellEntityWithDetails>>();
+    var allLevels = spells.map((spell) => spell.level).toSet().toList();
+    allLevels.sort();
+    allLevels.forEach((level) {
+      map[level] = [];
+    });
+    for (final spell in spells) {
+      map[spell.level]!.add(spell);
+    }
+    return map;
+  }
 }
 
 enum SpellComponent {
