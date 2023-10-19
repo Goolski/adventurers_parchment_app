@@ -23,6 +23,7 @@ class AddSpellToCharactersWidget extends StatelessWidget {
             return const SizedBox.shrink();
           }
           return PopupMenuButton<CharacterEntity>(
+            icon: const Icon(Icons.add),
             onSelected: (selectedCharacter) => context
                 .read<AddSpellToCharactersWidgetCubit>()
                 .addSpellToCharacter(
