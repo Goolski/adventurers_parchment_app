@@ -14,6 +14,9 @@ class CharacterExistsException implements Exception {
 }
 
 class CharactersLocalDataSource {
+  CharactersLocalDataSource() {
+    _init();
+  }
   Future<void> create({required CharacterEntity newCharacter}) async {
     final characters = await _getAllCharacters();
     if (characters
@@ -76,7 +79,6 @@ class CharactersLocalDataSource {
         behaviorSubject.doOnCancel(
           () {
             characterStreamSub.cancel();
-            box.close();
           },
         );
       },
@@ -88,7 +90,6 @@ class CharactersLocalDataSource {
   Future<Set<CharacterEntity>> _getAllCharacters() async {
     final box = await Hive.openBox(charactersBox);
     final allCharactersJson = box.get(charactersKey);
-    await box.close();
     if (allCharactersJson == null) {
       return {};
     } else {
@@ -101,7 +102,6 @@ class CharactersLocalDataSource {
       {required Set<CharacterEntity> updatedCharacters}) async {
     final box = await Hive.openBox(charactersBox);
     await box.put(charactersKey, _encodeCharactersIntoJson(updatedCharacters));
-    await box.close();
   }
 
   Set<CharacterEntity> _decodeCharactersFromJson(String json) {
@@ -114,5 +114,13 @@ class CharactersLocalDataSource {
 
   String _encodeCharactersIntoJson(Iterable<CharacterEntity> characters) {
     return jsonEncode(characters.toList());
+  }
+
+  _init() async {
+    final box = await Hive.openBox(charactersBox);
+    final characters = box.get(charactersKey);
+    if (characters == null) {
+      await box.put(charactersKey, _encodeCharactersIntoJson([]));
+    }
   }
 }
