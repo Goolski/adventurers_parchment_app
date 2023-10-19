@@ -9,6 +9,7 @@ final ThemeData theme = ThemeData(
   ),
   canvasColor: Colors.transparent,
   chipTheme: ChipThemeData(
+    padding: EdgeInsets.all(0),
     backgroundColor: Colors.transparent,
     showCheckmark: false,
     shape: RoundedRectangleBorder(
@@ -19,6 +20,7 @@ final ThemeData theme = ThemeData(
       ),
     ),
   ),
+  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   pageTransitionsTheme: pageTransitionTheme,
 );
 
