@@ -1,17 +1,17 @@
-import 'package:adventurers_parchment/data_sources/characters_local_data_source.dart';
-import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/spell_details_view.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/all_spells_mobile_view/all_spells_mobile_view_new.dart';
-import 'package:adventurers_parchment/features/characters/create_character_view/create_character_view.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/favorite_spells_mobile_view.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/main_menu_view.dart';
-import 'package:adventurers_parchment/presentation/mobile_layout/main_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../di/di.dart';
 import '../../features/characters/character_view/character_view.dart';
+import '../../data_sources/characters_local_data_source.dart';
+import '../../features/characters/blocs/character_cubit/character_cubit.dart';
+import 'spell_details_view.dart';
+import 'all_spells_mobile_view/all_spells_mobile_view_new.dart';
+import '../../features/characters/create_character_view/create_character_view.dart';
+import 'favorite_spells_mobile_view.dart';
+import 'main_menu_view.dart';
+import 'main_scaffold.dart';
 
 final router = GoRouter(
   routes: [

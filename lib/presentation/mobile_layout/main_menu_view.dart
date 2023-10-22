@@ -1,4 +1,4 @@
-import 'package:adventurers_parchment/features/characters/list_of_characters_wiget/list_of_characters_widget.dart';
+import 'package:adventurers_parchment/features/characters/characters_provider_widget/characters_provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -68,6 +68,28 @@ class MainMenuView extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ListOfCharactersWidget extends StatelessWidget {
+  const ListOfCharactersWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return CharactersProviderWidget(
+      builder: (characters) => Column(
+        children: characters
+            .map(
+              (character) => TextButton(
+                onPressed: () => context.go('character/${character.id}'),
+                child: Text(character.name),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 }
