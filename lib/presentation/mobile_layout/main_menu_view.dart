@@ -84,7 +84,7 @@ class ListOfCharactersWidget extends StatelessWidget {
         children: characters
             .map(
               (character) => TextButton(
-                onPressed: () => context.go('character/${character.id}'),
+                onPressed: () => context.go('/character/${character.id}'),
                 child: Text(character.name),
               ),
             )
