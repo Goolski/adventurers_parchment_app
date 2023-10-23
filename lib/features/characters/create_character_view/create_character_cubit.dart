@@ -41,7 +41,7 @@ class CreateCharacterCubit extends Cubit<CreateCharacterState> {
     emit(newState);
   }
 
-  onSaveCharacterPressed() async {
+  Future<void> onSaveCharacterPressed() async {
     emit(
       CreateCharacterStateSaving(
         characterName: state.characterName,
@@ -57,6 +57,11 @@ class CreateCharacterCubit extends Cubit<CreateCharacterState> {
     final newCharacter = CharacterEntity.empty(
         characterName: state.characterName, characterClasses: selectedClasses);
     await charactersLocalDataSource.create(newCharacter: newCharacter);
+    emit(
+      CreateCharacterStateSaved(
+          characterName: state.characterName,
+          characterClasses: state.characterClasses),
+    );
   }
 
   _init() {

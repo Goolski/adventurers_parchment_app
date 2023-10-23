@@ -1,6 +1,7 @@
 import 'package:adventurers_parchment/features/characters/create_character_view/create_character_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../di/di.dart';
 import '../../../presentation/DTOs/selectable_DTO.dart';
@@ -15,7 +16,12 @@ class CreateCharacterView extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: BlocProvider<CreateCharacterCubit>(
         create: (context) => Injector.resolve<CreateCharacterCubit>(),
-        child: BlocBuilder<CreateCharacterCubit, CreateCharacterState>(
+        child: BlocConsumer<CreateCharacterCubit, CreateCharacterState>(
+          listener: (context, state) {
+            if (state is CreateCharacterStateSaved) {
+              context.go('/');
+            }
+          },
           builder: (context, state) {
             final cubit = context.read<CreateCharacterCubit>();
             return Column(

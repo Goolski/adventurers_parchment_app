@@ -28,3 +28,10 @@ class CreateCharacterStateSaving extends CreateCharacterState {
     required super.characterClasses,
   });
 }
+
+class CreateCharacterStateSaved extends CreateCharacterState {
+  CreateCharacterStateSaved({
+    required super.characterName,
+    required super.characterClasses,
+  });
+}
