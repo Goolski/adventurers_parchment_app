@@ -26,17 +26,15 @@ class CharacterView extends StatelessWidget {
               children: [
                 Text(
                   character.name,
+                  textAlign: TextAlign.center,
                 ),
                 if (character.characterClasses.isNotEmpty) ...[
-                  Text('Classes:'),
-                  Wrap(
-                    children: character.characterClasses
-                        .map(
-                          (characterClass) => Chip(
-                            label: Text(characterClass.name),
-                          ),
-                        )
-                        .toList(),
+                  Text(
+                    character.characterClasses
+                        .map((characterClass) => characterClass.name)
+                        .join(', '),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ],
                 SingleChildScrollView(
