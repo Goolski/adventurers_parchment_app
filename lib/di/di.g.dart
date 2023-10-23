@@ -12,8 +12,7 @@ class _$Injector extends Injector {
     final KiwiContainer container = KiwiContainer();
     container
       ..registerFactory((c) => CharactersCubit(c<CharactersLocalDataSource>()))
-      ..registerFactory((c) =>
-          AddSpellToCharactersWidgetCubit(c<CharactersLocalDataSource>()))
+      ..registerFactory((c) => AddSpellToCharactersWidgetCubit())
       ..registerFactory(
           (c) => CreateCharacterCubit(c<CharactersLocalDataSource>()))
       ..registerFactory((c) => CharactersLocalDataSource())

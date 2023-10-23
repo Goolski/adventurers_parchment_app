@@ -17,6 +17,22 @@ class CharacterCubit extends Cubit<CharacterState> {
   final String characterId;
   late StreamSubscription streamSubscription;
 
+  Future<void> addSpell({
+    required String spellId,
+  }) async {
+    final character = state.character;
+    if (character != null && !character.spellIds.contains(spellId)) {
+      final updatedCharacter = CharacterEntity(
+        id: character.id,
+        name: character.name,
+        characterClasses: character.characterClasses,
+        spellIds: character.spellIds..add(spellId),
+      );
+
+      await _updateCharacter(updatedCharacter);
+    }
+  }
+
   removeSpell(String spellId) {
     final currentCharacter = state.character;
     if (currentCharacter != null) {
