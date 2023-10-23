@@ -18,12 +18,12 @@ class MainMenuView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                'Oh Hello!\n I am a Parchment',
+                'Hello!\n I am a Parchment',
                 textAlign: TextAlign.center,
                 style: textStyle,
               ),
               Text(
-                'What would You like to See?',
+                'What can I do for You?',
                 textAlign: TextAlign.center,
                 style: textStyle,
               ),
@@ -33,21 +33,21 @@ class MainMenuView extends StatelessWidget {
                   TextButton(
                     onPressed: () => context.go('/create_character'),
                     child: Text(
-                      'Create Character',
+                      'Create a Character',
                       style: textButtonTextStyle,
                     ),
                   ),
                   TextButton(
                     onPressed: () => context.go('/spells'),
                     child: Text(
-                      'All the spells I know?',
+                      'Show all the spells You know',
                       style: textButtonTextStyle,
                     ),
                   ),
                   TextButton(
                     onPressed: () => context.go('/spells/favorite'),
                     child: Text(
-                      'Your favorite spells?',
+                      'Show my favorite spells',
                       style: textButtonTextStyle,
                     ),
                   ),
@@ -85,7 +85,10 @@ class ListOfCharactersWidget extends StatelessWidget {
             .map(
               (character) => TextButton(
                 onPressed: () => context.go('/character/${character.id}'),
-                child: Text(character.name),
+                child: Text(
+                  "Show me ${character.name}'s spells",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
             )
             .toList(),
