@@ -37,13 +37,10 @@ class AddSpellToCharactersWidget extends StatelessWidget {
                       characterId: characterId,
                       builder: (context, character) {
                         if (character != null) {
-                          Future.delayed(
-                            Duration(seconds: 2),
-                            () => context
-                                .read<CharacterCubit>()
-                                .addSpell(spellId: spellId)
-                                .then((value) => onSpellAdded(context)),
-                          );
+                          context
+                              .read<CharacterCubit>()
+                              .addSpell(spellId: spellId)
+                              .then((value) => onSpellAdded(context));
                         }
                         return CircularProgressIndicator();
                       },
