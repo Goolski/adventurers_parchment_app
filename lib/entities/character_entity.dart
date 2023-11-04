@@ -1,4 +1,5 @@
 import 'package:adventurers_parchment/entities/character_class_entity.dart';
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,13 +10,16 @@ class CharacterEntity {
   final String id;
   final String name;
   final List<CharacterClassEntity> characterClasses;
-  final List<String> spellIds;
+  final UnmodifiableListView<String> _spellIds;
 
-  CharacterEntity(
-      {required this.id,
-      required this.name,
-      required this.characterClasses,
-      required this.spellIds});
+  UnmodifiableListView<String> get spellIds => _spellIds;
+
+  CharacterEntity({
+    required this.id,
+    required this.name,
+    required this.characterClasses,
+    List<String> spellIds = const [],
+  }) : _spellIds = UnmodifiableListView(spellIds);
 
   factory CharacterEntity.empty({
     required String characterName,
@@ -34,11 +38,16 @@ class CharacterEntity {
 
   factory CharacterEntity.fromJson(Map<String, dynamic> json) =>
       _$CharacterEntityFromJson(json);
-  CharacterEntity copyWith(
-      {String? id,
-      String? name,
-      List<CharacterClassEntity>? characterClasses,
-      List<String>? spellIds}) {
+
+  CharacterEntity copyWith({
+    String? id,
+    String? name,
+    List<CharacterClassEntity>? characterClasses,
+    List<String>? spellIds,
+  }) {
+    if (spellIds != null) {
+      spellIds = getRidOfSpellDuplicates(spellIds);
+    }
     return CharacterEntity(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -46,4 +55,7 @@ class CharacterEntity {
       spellIds: spellIds ?? this.spellIds,
     );
   }
+
+  List<String> getRidOfSpellDuplicates(List<String> spellIds) =>
+      spellIds.toSet().toList();
 }
