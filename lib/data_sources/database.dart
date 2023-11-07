@@ -2,7 +2,7 @@ import 'dart:async';
 
 class Database<T> {
   Database({List<T> initList = const []}) : _list = initList {
-    _controller.onListen = () => emitCurrentValue();
+    _controller.onListen = () => _emitCurrentValue();
   }
 
   final StreamController<List<T>> _controller =
@@ -11,7 +11,7 @@ class Database<T> {
 
   set list(List<T> newList) {
     _list = newList;
-    emitCurrentValue();
+    _emitCurrentValue();
   }
 
   Stream<List<T>> get stream => _controller.stream;
@@ -20,7 +20,7 @@ class Database<T> {
     _controller.close();
   }
 
-  void emitCurrentValue() {
+  void _emitCurrentValue() {
     _controller.sink.add(_list);
   }
 }
