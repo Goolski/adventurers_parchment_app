@@ -56,7 +56,7 @@ class CreateCharacterCubit extends Cubit<CreateCharacterState> {
         .toList();
     final newCharacter = CharacterEntity.empty(
         characterName: state.characterName, characterClasses: selectedClasses);
-    await charactersLocalDataSource.create(newCharacter: newCharacter);
+    await charactersLocalDataSource.add(item: newCharacter);
     emit(
       CreateCharacterStateSaved(
           characterName: state.characterName,

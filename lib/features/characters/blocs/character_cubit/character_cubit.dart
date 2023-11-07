@@ -43,13 +43,13 @@ class CharacterCubit extends Cubit<CharacterState> {
   }
 
   _updateCharacter(CharacterEntity updatedCharacter) async {
-    await charactersLocalDataSource.update(updatedCharacter: updatedCharacter);
+    await charactersLocalDataSource.update(item: updatedCharacter);
     emit(CharacterState(updatedCharacter));
   }
 
   _init() {
     streamSubscription = charactersLocalDataSource
-        .getSingleCharacter(
+        .get(
       id: characterId,
     )
         .listen(

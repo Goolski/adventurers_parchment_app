@@ -10,6 +10,9 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:kiwi/kiwi.dart';
 
+import '../data_sources/database.dart';
+import '../entities/character_entity.dart';
+
 part 'di.g.dart';
 
 abstract class Injector {
@@ -21,6 +24,7 @@ abstract class Injector {
 
   void configure() {
     configureDio();
+    configureCharacterEntityDatabase();
     configureGenerated();
   }
 
@@ -46,6 +50,12 @@ abstract class Injector {
           policy: CachePolicy.forceCache,
         ),
       ),
+    );
+  }
+
+  void configureCharacterEntityDatabase() {
+    container.registerInstance<Database<CharacterEntity>>(
+      Database<CharacterEntity>(),
     );
   }
 

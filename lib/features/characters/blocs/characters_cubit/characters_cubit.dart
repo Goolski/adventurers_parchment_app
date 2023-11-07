@@ -17,8 +17,7 @@ class CharactersCubit extends Cubit<CharactersState> {
   late StreamSubscription streamSubscription;
 
   _init() {
-    streamSubscription =
-        charactersLocalDataSource.getAllCharacters().listen((event) {
+    streamSubscription = charactersLocalDataSource.getAll().listen((event) {
       emit(
         CharactersState(
           characters: event.toList(),

@@ -13,8 +13,10 @@ CharacterEntity _$CharacterEntityFromJson(Map<String, dynamic> json) =>
       characterClasses: (json['characterClasses'] as List<dynamic>)
           .map((e) => CharacterClassEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
-      spellIds:
-          (json['spellIds'] as List<dynamic>).map((e) => e as String).toList(),
+      spellIds: (json['spellIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$CharacterEntityToJson(CharacterEntity instance) =>

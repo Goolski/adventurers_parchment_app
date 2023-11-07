@@ -15,7 +15,8 @@ class _$Injector extends Injector {
       ..registerFactory((c) => AddSpellToCharactersWidgetCubit())
       ..registerFactory(
           (c) => CreateCharacterCubit(c<CharactersLocalDataSource>()))
-      ..registerFactory((c) => CharactersLocalDataSource())
+      ..registerFactory(
+          (c) => CharactersLocalDataSource(c<Database<CharacterEntity>>()))
       ..registerFactory<SpellsDataSource>((c) => SpellsLocalDataSource());
   }
 }
