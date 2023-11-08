@@ -44,6 +44,19 @@ void main() {
   });
 
   test(
+    """You should be able
+  to subscribe to the same data source multiple times 
+  each time getting current value""",
+    () {
+      final stream = dataSource.getAll();
+      final future = dataSource.getAll().first;
+
+      expectLater(stream, emits(initialCharacters));
+      expectLater(future, completion(equals(initialCharacters)));
+    },
+  );
+
+  test(
     'Adding item to database should result in creating the object in database',
     () async {
       final newCharacter = CharacterEntity.empty(characterName: 'new');
