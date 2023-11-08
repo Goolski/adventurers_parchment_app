@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'database.dart';
 import '../entities/character_entity.dart';
@@ -10,15 +11,14 @@ const charactersBox = 'characters';
 const charactersKey = 'characters';
 
 class CharactersHive implements Database<CharacterEntity> {
-  CharactersHive() : _list = [] {
+  CharactersHive() {
     _init();
   }
 
   late final StreamController<List<CharacterEntity>> _controller =
-      StreamController.broadcast(
+      BehaviorSubject(
     onListen: () => _emitCurrentValue(),
   );
-  List<CharacterEntity> _list;
 
   @override
   void dispose() {
@@ -33,8 +33,9 @@ class CharactersHive implements Database<CharacterEntity> {
   @override
   Stream<List<CharacterEntity>> get stream => _controller.stream;
 
-  void _emitCurrentValue() {
-    _controller.sink.add(_list);
+  void _emitCurrentValue() async {
+    final currentValue = await _getCurrentValue();
+    _controller.sink.add(currentValue);
   }
 
   void _update(List<CharacterEntity> items) async {
@@ -45,12 +46,21 @@ class CharactersHive implements Database<CharacterEntity> {
     );
   }
 
-  void _init() async {
+  Future<List<CharacterEntity>> _getCurrentValue() async {
     final box = await Hive.openBox(charactersBox);
     final characters = box.get(charactersKey);
     if (characters == null) {
-      await box.put(charactersKey, _encodeCharactersIntoJson([]));
+      await _initiateBoxWithEmptyList(box);
+      return [];
+    } else {
+      return _decodeCharactersFromJson(characters);
     }
+  }
+
+  void _init() async {
+    _emitCurrentValue();
+
+    final box = await Hive.openBox(charactersBox);
 
     box
         .watch(key: charactersKey)
@@ -61,10 +71,13 @@ class CharactersHive implements Database<CharacterEntity> {
         )
         .listen(
       (newList) {
-        _list = newList;
         _emitCurrentValue();
       },
     );
+  }
+
+  Future<void> _initiateBoxWithEmptyList(Box<dynamic> box) async {
+    await box.put(charactersKey, _encodeCharactersIntoJson([]));
   }
 
   String _encodeCharactersIntoJson(Iterable<CharacterEntity> characters) {
