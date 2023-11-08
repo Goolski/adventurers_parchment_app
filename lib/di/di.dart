@@ -10,6 +10,7 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:kiwi/kiwi.dart';
 
+import '../data_sources/characters_hive.dart';
 import '../data_sources/database.dart';
 import '../entities/character_entity.dart';
 
@@ -24,7 +25,6 @@ abstract class Injector {
 
   void configure() {
     configureDio();
-    configureCharacterEntityDatabase();
     configureGenerated();
   }
 
@@ -53,12 +53,7 @@ abstract class Injector {
     );
   }
 
-  void configureCharacterEntityDatabase() {
-    container.registerInstance<Database<CharacterEntity>>(
-      Database<CharacterEntity>(),
-    );
-  }
-
+  @Register.factory(Database<CharacterEntity>, from: CharactersHive)
   @Register.factory(CharactersCubit)
   @Register.factory(AddSpellToCharactersWidgetCubit)
   @Register.factory(CreateCharacterCubit)
