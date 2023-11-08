@@ -67,4 +67,19 @@ void main() {
     final charactersAfterDeleting = await dataSource.getAll().first;
     expect(charactersAfterDeleting.contains(john), false);
   });
+
+  (test(
+    'Updating an item should not delete it temporarily',
+    () async {
+      final updatedJohn = john.copyWith(name: 'updatedJohn');
+      final updatedCharacters = [updatedJohn, andrew, jacob];
+
+      expectLater(
+        dataSource.getAll(),
+        emitsInOrder([equals(initialCharacters), equals(updatedCharacters)]),
+      );
+
+      await dataSource.update(item: updatedJohn);
+    },
+  ));
 }
