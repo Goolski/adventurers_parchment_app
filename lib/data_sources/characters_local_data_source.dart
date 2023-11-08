@@ -29,21 +29,24 @@ class CharactersLocalDataSource implements ICrudDataSource<CharacterEntity> {
   @override
   Stream<CharacterEntity> get({required String id}) {
     return db.stream.asyncMap(
-      (event) => event.firstWhere((element) => element.id == id),
+      (event) => event.firstWhere(
+        (element) => element.id == id,
+      ),
     );
   }
 
   @override
   Future<void> update({required CharacterEntity item}) async {
-    final CharacterEntity currentValue = await get(id: item.id).first;
-    await delete(item: currentValue);
-    await add(item: item);
+    List<CharacterEntity> currentItems = await db.stream.first;
+    final itemId = currentItems.indexWhere((element) => element.id == item.id);
+    currentItems.replaceRange(itemId, itemId + 1, [item]);
+    db.list = currentItems;
   }
 
   @override
   Future<void> delete({required CharacterEntity item}) async {
     List<CharacterEntity> currentItems = await db.stream.first;
-    await currentItems.remove(item);
+    currentItems.remove(item);
     db.list = currentItems;
   }
 }
