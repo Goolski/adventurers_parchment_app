@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 class Database<T> {
   Database({List<T> initList = const []}) : _list = initList {
     _controller.onListen = () => _emitCurrentValue();
   }
 
-  final StreamController<List<T>> _controller =
-      StreamController<List<T>>.broadcast();
+  final StreamController<List<T>> _controller = BehaviorSubject<List<T>>();
   List<T> _list;
 
   set list(List<T> newList) {
