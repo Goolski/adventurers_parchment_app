@@ -22,11 +22,8 @@ class CharacterCubit extends Cubit<CharacterState> {
   }) async {
     final character = state.character;
     if (character != null && !character.spellIds.contains(spellId)) {
-      final updatedCharacter = CharacterEntity(
-        id: character.id,
-        name: character.name,
-        characterClasses: character.characterClasses,
-        spellIds: character.spellIds..add(spellId),
+      final updatedCharacter = character.copyWith(
+        spellIds: List.from(character.spellIds)..add(spellId),
       );
 
       await _updateCharacter(updatedCharacter);
