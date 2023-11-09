@@ -17,8 +17,12 @@ class CharactersLocalDataSource implements ICrudDataSource<CharacterEntity> {
   @override
   Future<void> add({required CharacterEntity item}) async {
     List<CharacterEntity> currentItems = await db.stream.first;
-    currentItems.add(item);
-    db.list = currentItems;
+    if (_itemExistsInDataSource(currentItems, item)) {
+      throw ItemAlreadyExistsException(item: item);
+    } else {
+      currentItems.add(item);
+      db.list = currentItems;
+    }
   }
 
   @override
@@ -38,15 +42,30 @@ class CharactersLocalDataSource implements ICrudDataSource<CharacterEntity> {
   @override
   Future<void> update({required CharacterEntity item}) async {
     List<CharacterEntity> currentItems = await db.stream.first;
-    final itemId = currentItems.indexWhere((element) => element.id == item.id);
-    currentItems.replaceRange(itemId, itemId + 1, [item]);
-    db.list = currentItems;
+    if (_itemExistsInDataSource(currentItems, item)) {
+      final itemId =
+          currentItems.indexWhere((element) => element.id == item.id);
+      currentItems.replaceRange(itemId, itemId + 1, [item]);
+      db.list = currentItems;
+    } else {
+      throw ItemDoesntExistException(id: item.id);
+    }
   }
 
   @override
   Future<void> delete({required CharacterEntity item}) async {
     List<CharacterEntity> currentItems = await db.stream.first;
-    currentItems.remove(item);
-    db.list = currentItems;
+    if (_itemExistsInDataSource(currentItems, item)) {
+      throw (ItemDoesntExistException(id: item.id));
+    } else {
+      currentItems.remove(item);
+      db.list = currentItems;
+    }
   }
+
+  bool _itemExistsInDataSource(
+    List<CharacterEntity> currentItems,
+    CharacterEntity item,
+  ) =>
+      currentItems.any((element) => element.id == item.id);
 }
