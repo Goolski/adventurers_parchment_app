@@ -5,3 +5,25 @@ abstract class ICrudDataSource<T> {
   Future<void> update({required T item});
   Future<void> delete({required T item});
 }
+
+class ItemAlreadyExistsException implements Exception {
+  ItemAlreadyExistsException({this.item});
+  final Object? item;
+
+  @override
+  String toString() {
+    final str = item == null ? "" : ": ${item.toString()}";
+    return "Item already exist in Data Source$str";
+  }
+}
+
+class ItemDoesntExistException implements Exception {
+  ItemDoesntExistException({this.id});
+  final String? id;
+
+  @override
+  String toString() {
+    final str = id == null ? "" : ": ${id.toString()}";
+    return "Item with given Id doesn't exist in database: Id: $str";
+  }
+}
