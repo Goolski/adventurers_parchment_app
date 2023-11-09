@@ -58,4 +58,9 @@ class CharacterEntity {
 
   List<String> getRidOfSpellDuplicates(List<String> spellIds) =>
       spellIds.toSet().toList();
+
+  @override
+  String toString() {
+    return '${this.id} : ${this.name}';
+  }
 }
