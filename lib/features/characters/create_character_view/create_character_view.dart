@@ -1,4 +1,5 @@
 import 'package:adventurers_parchment/features/characters/create_character_view/create_character_cubit.dart';
+import 'package:adventurers_parchment/features/characters/select_character_classes_widget/select_character_classes_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,8 @@ class CreateCharacterView extends StatelessWidget {
               context.go('/');
             }
           },
+          buildWhen: (previous, current) =>
+              current is CreateCharacterStateSaving,
           builder: (context, state) {
             final cubit = context.read<CreateCharacterCubit>();
             return Column(
@@ -29,12 +32,25 @@ class CreateCharacterView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text('Create New Character', textAlign: TextAlign.center),
-                CharacterForm(
-                  characterClasses: state.characterClasses,
-                  onCharacterClassPressed: (selected) =>
-                      cubit.onCharacterClassPressed(selected),
-                  onCharacterNameChanged: (characterName) =>
-                      cubit.onCharacterNameChanged(characterName),
+                Row(
+                  children: [
+                    Text(
+                      'Name: ',
+                    ),
+                    Flexible(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (characterName) =>
+                            cubit.onCharacterNameChanged(characterName),
+                      ),
+                    ),
+                  ],
+                ),
+                SelectCharacterClassesWidget(
+                  onUpdate: (characterClasses) =>
+                      cubit.onCharacterClassesUpdated(characterClasses),
                 ),
                 OutlinedButton(
                   child: state is CreateCharacterStateSaving
@@ -72,22 +88,6 @@ class CharacterForm extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: [
-        Row(
-          children: [
-            Text(
-              'Name: ',
-            ),
-            Flexible(
-              child: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                ),
-                onChanged: (characterName) =>
-                    onCharacterNameChanged(characterName),
-              ),
-            ),
-          ],
-        ),
         Text('Class'),
         Wrap(
           alignment: WrapAlignment.start,
