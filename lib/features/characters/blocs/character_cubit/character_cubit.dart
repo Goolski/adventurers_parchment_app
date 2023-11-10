@@ -30,6 +30,16 @@ class CharacterCubit extends Cubit<CharacterState> {
     }
   }
 
+  deleteThisCharacter() async {
+    final character = state.character;
+    if (character != null) {
+      await charactersLocalDataSource.delete(item: character);
+      emit(
+        const CharacterState(null),
+      );
+    }
+  }
+
   removeSpell(String spellId) {
     final currentCharacter = state.character;
     if (currentCharacter != null) {
