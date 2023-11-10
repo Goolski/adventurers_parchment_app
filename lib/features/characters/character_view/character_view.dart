@@ -1,3 +1,4 @@
+import 'package:adventurers_parchment/entities/character_entity.dart';
 import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
 import 'package:adventurers_parchment/features/characters/character_view/character_view_cubit.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,13 @@ class CharacterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CharacterCubit, CharacterState>(
       builder: (context, state) {
-        final character = state.character;
-        if (character == null) {
+        final nullableCharacter = state.character;
+        if (nullableCharacter == null) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
+          final CharacterEntity character = nullableCharacter;
           return BlocProvider<CharacterViewCubit>(
             create: (context) => CharacterViewCubit(),
             child: Padding(
@@ -32,18 +34,9 @@ class CharacterView extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
-                            character.name,
-                            textAlign: TextAlign.center,
-                          ),
+                          CharacterNameWidget(character: character),
                           if (character.characterClasses.isNotEmpty) ...[
-                            Text(
-                              character.characterClasses
-                                  .map((characterClass) => characterClass.name)
-                                  .join(', '),
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
+                            ListOfCharacterClassesWidget(character: character),
                           ],
                           Row(
                             children: [
@@ -110,6 +103,43 @@ class CharacterView extends StatelessWidget {
           );
         }
       },
+    );
+  }
+}
+
+class CharacterNameWidget extends StatelessWidget {
+  const CharacterNameWidget({
+    super.key,
+    required this.character,
+  });
+
+  final CharacterEntity character;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      character.name,
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+class ListOfCharacterClassesWidget extends StatelessWidget {
+  const ListOfCharacterClassesWidget({
+    super.key,
+    required this.character,
+  });
+
+  final CharacterEntity character;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      character.characterClasses
+          .map((characterClass) => characterClass.name)
+          .join(', '),
+      textAlign: TextAlign.center,
+      style: Theme.of(context).textTheme.labelLarge,
     );
   }
 }
