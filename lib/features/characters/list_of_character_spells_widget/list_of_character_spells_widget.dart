@@ -8,88 +8,51 @@ import '../../../data_sources/spells/spells_data_source.dart';
 import '../../../di/di.dart';
 import '../../../entities/character_entity.dart';
 import '../../spells/spell_provider_widget/spell_provider_widget.dart';
-import 'list_of_character_spells_widget_cubit.dart';
 
 class ListOfCharacterSpellsWidget extends StatelessWidget {
   const ListOfCharacterSpellsWidget({
     super.key,
     required this.character,
+    this.isEditing = false,
   });
 
   final CharacterEntity character;
+  final bool isEditing;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ListOfCharacterSpellsWidgetCubit>(
-      create: (context) => ListOfCharacterSpellsWidgetCubit(),
-      child: BlocBuilder<ListOfCharacterSpellsWidgetCubit,
-          ListOfCharacterSpellsWidgetState>(
-        builder: (context, state) {
-          bool isEditing = state == ListOfCharacterSpellsWidgetState.edit;
-          final cubit = context.read<ListOfCharacterSpellsWidgetCubit>();
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
-                children: [
-                  const Text(
-                    'Spells',
-                    textAlign: TextAlign.center,
-                  ),
-                  Spacer(),
-                  getIconButtonBasedOnState(cubit, state),
-                ],
-              ),
-              SpellProviderWidget(
-                spellIds: character.spellIds,
-                builder: (spells) {
-                  final mapOfSpellsByLevel =
-                      SpellEntityWithDetails.splitSpellsByLevel(spells);
-                  final levels = mapOfSpellsByLevel.keys;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: levels.map(
-                      (level) {
-                        //Null check is required for Maps
-                        final spellsOfCurrentLevel = mapOfSpellsByLevel[level]!;
-                        return SpellsGroupedBySomethingWidget(
-                          something: level.toString(),
-                          spells: spellsOfCurrentLevel,
-                          isEditing: isEditing,
-                          onDeletePressed: (spellId) =>
-                              onSpellDelete(context: context, spellId: spellId),
-                          onSpellPressed: (spellId) => onSpellPressed(
-                              context: context, spellId: spellId),
-                        );
-                      },
-                    ).toList(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SpellProviderWidget(
+          spellIds: character.spellIds,
+          builder: (spells) {
+            final mapOfSpellsByLevel =
+                SpellEntityWithDetails.splitSpellsByLevel(spells);
+            final levels = mapOfSpellsByLevel.keys;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: levels.map(
+                (level) {
+                  //Null check is required for Maps
+                  final spellsOfCurrentLevel = mapOfSpellsByLevel[level]!;
+                  return SpellsGroupedBySomethingWidget(
+                    something: level.toString(),
+                    spells: spellsOfCurrentLevel,
+                    isEditing: isEditing,
+                    onDeletePressed: (spellId) =>
+                        onSpellDelete(context: context, spellId: spellId),
+                    onSpellPressed: (spellId) =>
+                        onSpellPressed(context: context, spellId: spellId),
                   );
                 },
-                spellsDataSource: Injector.resolve<SpellsDataSource>(),
-              ),
-            ],
-          );
-        },
-      ),
+              ).toList(),
+            );
+          },
+          spellsDataSource: Injector.resolve<SpellsDataSource>(),
+        ),
+      ],
     );
-  }
-
-  IconButton getIconButtonBasedOnState(
-    ListOfCharacterSpellsWidgetCubit cubit,
-    ListOfCharacterSpellsWidgetState state,
-  ) {
-    switch (state) {
-      case ListOfCharacterSpellsWidgetState.display:
-        return IconButton(
-          icon: Icon(Icons.edit),
-          onPressed: () => cubit.onEditPressed(),
-        );
-      case ListOfCharacterSpellsWidgetState.edit:
-        return IconButton(
-          icon: Icon(Icons.check),
-          onPressed: () => cubit.onDonePressed(),
-        );
-    }
   }
 
   onSpellDelete({
