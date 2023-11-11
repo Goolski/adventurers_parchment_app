@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:adventurers_parchment/data_sources/characters_local_data_source.dart';
+import 'package:adventurers_parchment/data_sources/data_source_interface.dart';
 import 'package:adventurers_parchment/entities/character_entity.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -52,9 +53,6 @@ class CharacterCubit extends Cubit<CharacterState> {
     final character = state.character;
     if (character != null) {
       await charactersLocalDataSource.delete(item: character);
-      emit(
-        const CharacterState(null),
-      );
     }
   }
 
@@ -81,7 +79,16 @@ class CharacterCubit extends Cubit<CharacterState> {
       (character) {
         emit(CharacterState(character));
       },
+      onError: (error, stackTrace) {
+        _onStreamError(error, stackTrace);
+      },
     );
+  }
+
+  void _onStreamError(error, stackTrace) {
+    if (error is ItemDeletedException) {
+      emit(CharacterState(null));
+    }
   }
 
   @override
