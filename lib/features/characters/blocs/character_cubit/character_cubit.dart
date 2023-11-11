@@ -54,7 +54,7 @@ class CharacterCubit extends Cubit<CharacterState> {
     );
   }
 
-  void deleteThisCharacter() async {
+  Future<void> deleteThisCharacter() async {
     if (state is! CharacterLoaded) {
       return;
     }

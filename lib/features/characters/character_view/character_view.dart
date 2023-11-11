@@ -158,7 +158,10 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
               ),
               const Spacer(),
               IconButton(
-                onPressed: () => _showDeleteConfirmationDialog(context),
+                onPressed: () => _showDeleteConfirmationDialog(
+                  context,
+                  () => context.read<CharacterCubit>().deleteThisCharacter(),
+                ),
                 icon: Icon(Icons.delete),
               ),
               IconButton(
@@ -188,7 +191,10 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
     );
   }
 
-  void _showDeleteConfirmationDialog(BuildContext context) {
+  void _showDeleteConfirmationDialog(
+    BuildContext context,
+    Function() onDelete,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -198,14 +204,14 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                context.pop(); // Close the dialog
               },
               child: Text("Cancel"),
             ),
             TextButton(
               onPressed: () {
-                context.read<CharacterCubit>().deleteThisCharacter();
-                Navigator.of(context).pop(); // Close the dialog
+                onDelete();
+                context.pop(); // Close the dialog
               },
               child: Text("Delete"),
             ),
