@@ -32,11 +32,13 @@ class CharactersLocalDataSource implements ICrudDataSource<CharacterEntity> {
 
   @override
   Stream<CharacterEntity> get({required String id}) {
-    return db.stream.asyncMap(
-      (event) => event.firstWhere(
-        (element) => element.id == id,
-      ),
-    );
+    return db.stream.asyncMap((list) {
+      if (!list.any((element) => element.id == id)) {
+        throw ItemDeletedException(id: id);
+      } else {
+        return list.firstWhere((element) => element.id == id);
+      }
+    });
   }
 
   @override
@@ -55,7 +57,7 @@ class CharactersLocalDataSource implements ICrudDataSource<CharacterEntity> {
   @override
   Future<void> delete({required CharacterEntity item}) async {
     List<CharacterEntity> currentItems = await db.stream.first;
-    if (_itemExistsInDataSource(currentItems, item)) {
+    if (!_itemExistsInDataSource(currentItems, item)) {
       throw (ItemDoesntExistException(id: item.id));
     } else {
       currentItems.remove(item);

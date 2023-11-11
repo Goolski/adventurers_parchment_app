@@ -27,3 +27,14 @@ class ItemDoesntExistException implements Exception {
     return "Item with given Id doesn't exist in database: Id: $str";
   }
 }
+
+class ItemDeletedException implements Exception {
+  ItemDeletedException({this.id});
+  final String? id;
+
+  @override
+  String toString() {
+    final str = id == null ? "" : ": ${id.toString()}";
+    return "Item with given Id was deleted: Id: $str";
+  }
+}

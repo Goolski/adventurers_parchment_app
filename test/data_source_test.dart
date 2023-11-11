@@ -180,4 +180,15 @@ void main() {
       );
     },
   );
+
+  test(
+      "When you listen to certain item by id and it get's deleted you should get Exception.",
+      () async {
+    dataSource.get(id: john.id).listen((event) {},
+        onError: (error, stackTrace) {
+      expect(error, isA<ItemDeletedException>());
+    });
+
+    await dataSource.delete(item: john);
+  });
 }
