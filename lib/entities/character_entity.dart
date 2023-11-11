@@ -56,6 +56,16 @@ class CharacterEntity {
     );
   }
 
+  static String? validateName({required String? name}) {
+    if (name == null) {
+      return 'Name cannot be null';
+    }
+    if (name.isEmpty) {
+      return 'Name cannot be empty';
+    }
+    return null;
+  }
+
   List<String> getRidOfSpellDuplicates(List<String> spellIds) =>
       spellIds.toSet().toList();
 

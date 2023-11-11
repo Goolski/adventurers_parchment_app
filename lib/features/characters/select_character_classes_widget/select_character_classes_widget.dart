@@ -6,14 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../entities/character_class_entity.dart';
 
 class SelectCharacterClassesWidget extends StatelessWidget {
-  const SelectCharacterClassesWidget({super.key, this.onUpdate});
+  const SelectCharacterClassesWidget({
+    super.key,
+    this.onUpdate,
+    this.initiallySelectedClasses,
+  });
 
   final Function(List<CharacterClassEntity> characterClasses)? onUpdate;
+  final List<CharacterClassEntity>? initiallySelectedClasses;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SelectCharacterClassesWidgetCubit>(
-      create: (context) => SelectCharacterClassesWidgetCubit(),
+      lazy: false,
+      create: (context) => SelectCharacterClassesWidgetCubit(
+        initiallySelectedClasses: initiallySelectedClasses,
+      ),
       child: BlocConsumer<SelectCharacterClassesWidgetCubit,
           SelectCharacterClassesWidgetState>(
         listener: (context, state) {

@@ -1,9 +1,11 @@
 import 'package:adventurers_parchment/entities/character_entity.dart';
 import 'package:adventurers_parchment/features/characters/blocs/character_cubit/character_cubit.dart';
 import 'package:adventurers_parchment/features/characters/character_view/character_view_cubit.dart';
+import 'package:adventurers_parchment/features/characters/select_character_classes_widget/select_character_classes_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../entities/character_class_entity.dart';
 import '../list_of_character_spells_widget/list_of_character_spells_widget.dart';
 
 class CharacterView extends StatelessWidget {
@@ -59,42 +61,9 @@ class CharacterView extends StatelessWidget {
                         ],
                       );
                     case CharacterViewState.edit:
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            character.name,
-                            textAlign: TextAlign.center,
-                          ),
-                          if (character.characterClasses.isNotEmpty) ...[
-                            Text(
-                              character.characterClasses
-                                  .map((characterClass) => characterClass.name)
-                                  .join(', '),
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                          ],
-                          Row(
-                            children: [
-                              const Text(
-                                'Spells',
-                                textAlign: TextAlign.center,
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () => cubit.requestSave(),
-                                icon: const Icon(Icons.check),
-                              ),
-                            ],
-                          ),
-                          SingleChildScrollView(
-                            child: ListOfCharacterSpellsWidget(
-                              character: character,
-                              isEditing: true,
-                            ),
-                          ),
-                        ],
+                      return EditingCharacterWidget(
+                        cubit: cubit,
+                        character: character,
                       );
                   }
                 },
@@ -103,6 +72,84 @@ class CharacterView extends StatelessWidget {
           );
         }
       },
+    );
+  }
+}
+
+class EditingCharacterWidget extends StatefulWidget {
+  const EditingCharacterWidget({
+    super.key,
+    required this.cubit,
+    required this.character,
+  });
+
+  final CharacterViewCubit cubit;
+  final CharacterEntity character;
+
+  @override
+  State<EditingCharacterWidget> createState() => _EditingCharacterWidgetState();
+}
+
+class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
+  final _formKey = GlobalKey<FormState>();
+  late final TextEditingController _controller;
+  List<CharacterClassEntity> _selectedCharacterClasses = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.character.name);
+    _selectedCharacterClasses = widget.character.characterClasses;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          TextFormField(
+            controller: _controller,
+            validator: (value) => CharacterEntity.validateName(name: value),
+          ),
+          SelectCharacterClassesWidget(
+            onUpdate: (characterClasses) => setState(() {
+              _selectedCharacterClasses = characterClasses;
+            }),
+            initiallySelectedClasses: widget.character.characterClasses,
+          ),
+          Row(
+            children: [
+              const Text(
+                'Spells',
+                textAlign: TextAlign.center,
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    final newName = _controller.text;
+                    final newCharacterClassees = _selectedCharacterClasses;
+                    await context.read<CharacterCubit>().updateThisCharacter(
+                          name: newName,
+                          characterClasses: newCharacterClassees,
+                        );
+                    widget.cubit.requestSave();
+                  }
+                },
+                icon: const Icon(Icons.check),
+              ),
+            ],
+          ),
+          SingleChildScrollView(
+            child: ListOfCharacterSpellsWidget(
+              character: widget.character,
+              isEditing: true,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

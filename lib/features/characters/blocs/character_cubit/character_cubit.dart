@@ -5,6 +5,8 @@ import 'package:adventurers_parchment/entities/character_entity.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../../../entities/character_class_entity.dart';
+
 class CharacterCubit extends Cubit<CharacterState> {
   CharacterCubit({
     required this.charactersLocalDataSource,
@@ -30,7 +32,23 @@ class CharacterCubit extends Cubit<CharacterState> {
     }
   }
 
-  deleteThisCharacter() async {
+  Future<void> updateThisCharacter({
+    String? name,
+    List<CharacterClassEntity>? characterClasses,
+  }) async {
+    final character = state.character;
+    if (character != null) {
+      final updatedCharacter = character.copyWith(
+        name: name,
+        characterClasses: characterClasses,
+      );
+      await charactersLocalDataSource.update(
+        item: updatedCharacter,
+      );
+    }
+  }
+
+  void deleteThisCharacter() async {
     final character = state.character;
     if (character != null) {
       await charactersLocalDataSource.delete(item: character);
