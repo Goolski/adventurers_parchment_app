@@ -156,6 +156,11 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
               ),
               const Spacer(),
               IconButton(
+                onPressed: () =>
+                    context.read<CharacterCubit>().deleteThisCharacter(),
+                icon: Icon(Icons.delete),
+              ),
+              IconButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     final newName = _controller.text;
