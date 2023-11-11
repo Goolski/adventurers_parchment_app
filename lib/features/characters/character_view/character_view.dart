@@ -139,9 +139,11 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextFormField(
+            decoration: InputDecoration(prefix: Text('Name: ')),
             controller: _controller,
             validator: (value) => CharacterEntity.validateName(name: value),
           ),
+          Text("Classes"),
           SelectCharacterClassesWidget(
             onUpdate: (characterClasses) => setState(() {
               _selectedCharacterClasses = characterClasses;

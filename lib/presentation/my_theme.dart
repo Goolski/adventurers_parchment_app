@@ -26,6 +26,10 @@ final ThemeData theme = ThemeData(
     endIndent: 2,
     thickness: 2,
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    outlineBorder: BorderSide.none,
+    border: InputBorder.none,
+  ),
   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   pageTransitionsTheme: pageTransitionTheme,
 );
