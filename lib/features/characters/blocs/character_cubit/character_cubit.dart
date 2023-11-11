@@ -12,7 +12,7 @@ class CharacterCubit extends Cubit<CharacterState> {
   CharacterCubit({
     required this.charactersLocalDataSource,
     required this.characterId,
-  }) : super(const CharacterState(null)) {
+  }) : super(LoadingCharacter()) {
     _init();
   }
 
@@ -23,8 +23,11 @@ class CharacterCubit extends Cubit<CharacterState> {
   Future<void> addSpell({
     required String spellId,
   }) async {
-    final character = state.character;
-    if (character != null && !character.spellIds.contains(spellId)) {
+    if (state is! CharacterLoaded) {
+      return;
+    }
+    final character = (state as CharacterLoaded).character;
+    if (!character.spellIds.contains(spellId)) {
       final updatedCharacter = character.copyWith(
         spellIds: List.from(character.spellIds)..add(spellId),
       );
@@ -37,37 +40,40 @@ class CharacterCubit extends Cubit<CharacterState> {
     String? name,
     List<CharacterClassEntity>? characterClasses,
   }) async {
-    final character = state.character;
-    if (character != null) {
-      final updatedCharacter = character.copyWith(
-        name: name,
-        characterClasses: characterClasses,
-      );
-      await charactersLocalDataSource.update(
-        item: updatedCharacter,
-      );
+    if (state is! CharacterLoaded) {
+      return;
     }
+    final character = (state as CharacterLoaded).character;
+
+    final updatedCharacter = character.copyWith(
+      name: name,
+      characterClasses: characterClasses,
+    );
+    await charactersLocalDataSource.update(
+      item: updatedCharacter,
+    );
   }
 
   void deleteThisCharacter() async {
-    final character = state.character;
-    if (character != null) {
-      await charactersLocalDataSource.delete(item: character);
+    if (state is! CharacterLoaded) {
+      return;
     }
+    final character = (state as CharacterLoaded).character;
+    await charactersLocalDataSource.delete(item: character);
   }
 
   removeSpell(String spellId) {
-    final currentCharacter = state.character;
-    if (currentCharacter != null) {
-      var newSpells = List<String>.from(currentCharacter.spellIds);
-      newSpells.removeWhere((element) => element == spellId);
-      _updateCharacter(currentCharacter.copyWith(spellIds: newSpells));
+    if (state is! CharacterLoaded) {
+      return;
     }
+    final currentCharacter = (state as CharacterLoaded).character;
+    var newSpells = List<String>.from(currentCharacter.spellIds);
+    newSpells.removeWhere((element) => element == spellId);
+    _updateCharacter(currentCharacter.copyWith(spellIds: newSpells));
   }
 
   _updateCharacter(CharacterEntity updatedCharacter) async {
     await charactersLocalDataSource.update(item: updatedCharacter);
-    emit(CharacterState(updatedCharacter));
   }
 
   _init() {
@@ -77,7 +83,7 @@ class CharacterCubit extends Cubit<CharacterState> {
     )
         .listen(
       (character) {
-        emit(CharacterState(character));
+        emit(CharacterLoaded(character));
       },
       onError: (error, stackTrace) {
         _onStreamError(error, stackTrace);
@@ -87,7 +93,7 @@ class CharacterCubit extends Cubit<CharacterState> {
 
   void _onStreamError(error, stackTrace) {
     if (error is ItemDeletedException) {
-      emit(CharacterState(null));
+      emit(CharacterDeleted());
     }
   }
 
@@ -98,13 +104,19 @@ class CharacterCubit extends Cubit<CharacterState> {
   }
 }
 
-class CharacterState extends Equatable {
-  final CharacterEntity? character;
+abstract class CharacterState {}
 
-  const CharacterState(
-    this.character,
-  );
+class LoadingCharacter implements CharacterState {}
+
+class CharacterLoaded extends Equatable implements CharacterState {
+  const CharacterLoaded(this.character);
+
+  final CharacterEntity character;
 
   @override
   List<Object?> get props => [character];
 }
+
+class CharacterDoesNotExist implements CharacterState {}
+
+class CharacterDeleted implements CharacterState {}

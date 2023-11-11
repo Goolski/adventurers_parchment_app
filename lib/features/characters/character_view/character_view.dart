@@ -17,13 +17,12 @@ class CharacterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CharacterCubit, CharacterState>(
       builder: (context, state) {
-        final nullableCharacter = state.character;
-        if (nullableCharacter == null) {
+        if (state is! CharacterLoaded) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          final CharacterEntity character = nullableCharacter;
+          final CharacterEntity character = state.character;
           return BlocProvider<CharacterViewCubit>(
             create: (context) => CharacterViewCubit(),
             child: Padding(

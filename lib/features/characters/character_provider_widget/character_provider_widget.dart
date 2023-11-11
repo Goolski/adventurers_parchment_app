@@ -26,7 +26,13 @@ class CharacterProviderWidget extends StatelessWidget {
         characterId: characterId,
       ),
       child: BlocBuilder<CharacterCubit, CharacterState>(
-        builder: (context, state) => builder(context, state.character),
+        builder: (context, state) {
+          if (state is CharacterLoaded) {
+            return builder(context, state.character);
+          } else {
+            return builder(context, null);
+          }
+        },
       ),
     );
   }
