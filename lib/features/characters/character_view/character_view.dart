@@ -4,6 +4,7 @@ import 'package:adventurers_parchment/features/characters/character_view/charact
 import 'package:adventurers_parchment/features/characters/select_character_classes_widget/select_character_classes_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../entities/character_class_entity.dart';
 import '../list_of_character_spells_widget/list_of_character_spells_widget.dart';
@@ -15,62 +16,91 @@ class CharacterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CharacterCubit, CharacterState>(
-      builder: (context, state) {
-        if (state is! CharacterLoaded) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          final CharacterEntity character = state.character;
-          return BlocProvider<CharacterViewCubit>(
-            create: (context) => CharacterViewCubit(),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: BlocBuilder<CharacterViewCubit, CharacterViewState>(
-                builder: (context, state) {
-                  final cubit = context.read<CharacterViewCubit>();
-                  switch (state) {
-                    case CharacterViewState.display:
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          CharacterNameWidget(character: character),
-                          if (character.characterClasses.isNotEmpty) ...[
-                            ListOfCharacterClassesWidget(character: character),
-                          ],
-                          Row(
-                            children: [
-                              const Text(
-                                'Spells',
-                                textAlign: TextAlign.center,
-                              ),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () => cubit.requestEdit(),
-                                icon: const Icon(Icons.edit),
-                              ),
-                            ],
-                          ),
-                          SingleChildScrollView(
-                            child: ListOfCharacterSpellsWidget(
-                              character: character,
-                            ),
-                          ),
-                        ],
-                      );
-                    case CharacterViewState.edit:
-                      return EditingCharacterWidget(
-                        cubit: cubit,
-                        character: character,
-                      );
-                  }
-                },
-              ),
-            ),
-          );
+    return BlocConsumer<CharacterCubit, CharacterState>(
+      listener: (context, state) {
+        if (state is CharacterDeleted) {
+          final snackBar = SnackBar(content: Text('Character Deleted'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          context.pop();
+        }
+        if (state is CharacterDoesNotExist) {
+          final snackBar = SnackBar(content: Text("Character Doesn't exist"));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          context.go('/');
         }
       },
+      builder: (context, state) {
+        switch (state.runtimeType) {
+          case CharacterLoaded:
+            final character = (state as CharacterLoaded).character;
+            return NewWidget(
+              character: character,
+            );
+          default:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+        }
+      },
+    );
+  }
+}
+
+class NewWidget extends StatelessWidget {
+  const NewWidget({
+    super.key,
+    required this.character,
+  });
+
+  final CharacterEntity character;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<CharacterViewCubit>(
+      create: (context) => CharacterViewCubit(),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder<CharacterViewCubit, CharacterViewState>(
+          builder: (context, state) {
+            final cubit = context.read<CharacterViewCubit>();
+            switch (state) {
+              case CharacterViewState.display:
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CharacterNameWidget(character: character),
+                    if (character.characterClasses.isNotEmpty) ...[
+                      ListOfCharacterClassesWidget(character: character),
+                    ],
+                    Row(
+                      children: [
+                        const Text(
+                          'Spells',
+                          textAlign: TextAlign.center,
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () => cubit.requestEdit(),
+                          icon: const Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
+                    SingleChildScrollView(
+                      child: ListOfCharacterSpellsWidget(
+                        character: character,
+                      ),
+                    ),
+                  ],
+                );
+              case CharacterViewState.edit:
+                return EditingCharacterWidget(
+                  cubit: cubit,
+                  character: character,
+                );
+            }
+          },
+        ),
+      ),
     );
   }
 }
