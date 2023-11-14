@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../common_widgets/masked_gif_image_widget.dart';
+import '../common_widgets/masked_widgets/masked_gif_image_widget.dart';
 
 class MainScaffold extends StatelessWidget {
   MainScaffold({

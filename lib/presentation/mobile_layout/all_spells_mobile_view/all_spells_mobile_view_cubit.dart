@@ -8,6 +8,7 @@ import 'package:bloc/bloc.dart';
 import 'all_spells_mobile_view_state.dart';
 
 const allFilterStrings = [
+  'Search',
   'Range',
   'Duration',
   'Classes',
@@ -22,6 +23,7 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
     this._spellsDataSource,
   ) : super(
           AllSpellsMobileViewState(
+            searchString: '',
             selectedFilters: SpellsOptionsWrapper.empty(),
             allFilterOptions: SpellsOptionsWrapper.empty(),
             filteredSpells: const [],
@@ -46,6 +48,11 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
       ..replaceRange(indexOfFilter, indexOfFilter + 1, [newFilterState]);
     final newState = state.copyWith(availableFilters: newAvailableFilters);
     emit(newState);
+  }
+
+  onSearchStringChanged(String searchString) {
+    emit(state.copyWith(searchString: searchString));
+    filterSpells();
   }
 
   updateSelectedRanges(List<String> selectedRanges) {
@@ -213,6 +220,13 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
           )
           .toList();
     }
+    if (state.searchString.isNotEmpty) {
+      newSpells = newSpells
+          .where((spell) => spell.name
+              .toLowerCase()
+              .contains(state.searchString.toLowerCase()))
+          .toList();
+    }
     emit(state.copyWith(filteredSpells: newSpells));
   }
 
@@ -223,6 +237,7 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
 
     emit(
       AllSpellsMobileViewState(
+        searchString: state.searchString,
         availableFilters: state.availableFilters,
         selectedFilters: SpellsOptionsWrapper.empty(),
         allFilterOptions: options,
@@ -234,6 +249,7 @@ class AllSpellsMobileViewCubit extends Cubit<AllSpellsMobileViewState> {
   void resetFilters() {
     emit(
       AllSpellsMobileViewState(
+        searchString: '',
         availableFilters: allFilterStrings
             .map((option) => SelectableDTO(thing: option, isSelected: false))
             .toList(),

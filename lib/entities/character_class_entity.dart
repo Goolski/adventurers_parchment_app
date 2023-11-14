@@ -23,3 +23,28 @@ class CharacterClassEntity extends Equatable {
   @override
   List<Object?> get props => [index];
 }
+
+const names = [
+  'Barbarian',
+  'Bard',
+  'Cleric',
+  'Druid',
+  'Fighter',
+  'Monk',
+  'Paladin',
+  'Ranger',
+  'Rogue',
+  'Sorcerer',
+  'Warlock',
+  'Wizard'
+];
+final indexes = names.map((e) => e.toLowerCase()).toList();
+final urls = indexes.map((e) => '/api/classes/$e').toList();
+final defaultListOfCharacterClasses = List.generate(
+  names.length,
+  (index) => CharacterClassEntity(
+    index: indexes[index],
+    name: names[index],
+    url: urls[index],
+  ),
+).toList();

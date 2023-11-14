@@ -12,7 +12,10 @@ const favoriteSpellsBox = 'favorite-spells';
 const favoriteSpellsKey = 'fav-spells';
 
 class FavoriteSpellsLocalDataSource {
-  Future<void> addFavouriteSpell({required SpellEntity spell}) async {
+  FavoriteSpellsLocalDataSource() {
+    _initiateFavoriteSpells();
+  }
+  Future<void> addFavoriteSpell({required SpellEntity spell}) async {
     var spellSet = await _getFavoriteSpells();
     spellSet.add(spell);
 
@@ -46,7 +49,7 @@ class FavoriteSpellsLocalDataSource {
     return behaviorSubject.stream;
   }
 
-  Future<Stream<SpellEntity?>> getSingleFavouriteSpellStream(
+  Future<Stream<SpellEntity?>> getSingleFavoriteSpellStream(
       {required SpellEntity spell}) async {
     final box = await Hive.openBox(favoriteSpellsBox);
 
@@ -106,6 +109,8 @@ class FavoriteSpellsLocalDataSource {
 
   Future<void> _initiateFavoriteSpells() async {
     final box = await Hive.openBox(favoriteSpellsBox);
-    await box.put(favoriteSpellsKey, jsonEncode([]));
+    if (box.get(favoriteSpellsKey) == null) {
+      await box.put(favoriteSpellsKey, jsonEncode([]));
+    }
   }
 }

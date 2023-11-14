@@ -4,7 +4,33 @@ import 'package:google_fonts/google_fonts.dart';
 final ThemeData theme = ThemeData(
   fontFamily: fontFamily,
   textTheme: textTheme,
-  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+  colorScheme: ColorScheme.fromSeed(seedColor: Colors.black).copyWith(
+    primary: Colors.black,
+  ),
+  canvasColor: Colors.transparent,
+  chipTheme: ChipThemeData(
+    padding: EdgeInsets.all(0),
+    backgroundColor: Colors.transparent,
+    showCheckmark: false,
+    shape: RoundedRectangleBorder(
+      side: BorderSide(
+        color: Colors.black,
+        width: 1,
+        style: BorderStyle.solid,
+      ),
+    ),
+  ),
+  dividerTheme: DividerThemeData(
+    color: Color(0xAA000000),
+    indent: 2,
+    endIndent: 2,
+    thickness: 2,
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    outlineBorder: BorderSide.none,
+    border: InputBorder.none,
+  ),
+  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
   pageTransitionsTheme: pageTransitionTheme,
 );
 

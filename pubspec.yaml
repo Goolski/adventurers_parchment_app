@@ -3,7 +3,7 @@ description: A helpful parchment of and Adventurer.
 
 publish_to: "none"
 
-version: 1.0.0+2
+version: 1.0.0+7
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
@@ -33,6 +33,8 @@ dependencies:
   dio_smart_retry: ^5.0.0
   go_router: ^10.1.2
   gif: ^2.2.0
+  uuid: ^4.1.0
+  async: ^2.11.0
 
 
 dev_dependencies:

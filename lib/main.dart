@@ -18,8 +18,8 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
-  Hive.initFlutter();
+void main() async {
+  await Hive.initFlutter();
   Injector.setup();
   HttpOverrides.global = MyHttpOverrides();
   LicenseRegistry.addLicense(() async* {

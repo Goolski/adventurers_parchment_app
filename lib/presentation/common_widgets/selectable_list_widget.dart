@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../mobile_layout/all_spells_mobile_view/all_spells_mobile_view.dart';
-
 class SelectableListWidget extends StatelessWidget {
   const SelectableListWidget({
     required this.options,
@@ -28,11 +26,11 @@ class SelectableListWidget extends StatelessWidget {
                   .map(
                     (o) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: SelectableWidgetButton(
-                        onPressed: () =>
+                      child: FilterChip(
+                        onSelected: (_) =>
                             context.read<SelectableListCubit>().onPressed(o),
-                        text: o,
-                        isSelected: state.selectedOptions.contains(o),
+                        label: Text(o),
+                        selected: state.selectedOptions.contains(o),
                       ),
                     ),
                   )
