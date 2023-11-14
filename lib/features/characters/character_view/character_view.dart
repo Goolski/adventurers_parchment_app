@@ -85,9 +85,11 @@ class NewWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SingleChildScrollView(
-                      child: ListOfCharacterSpellsWidget(
-                        character: character,
+                    Flexible(
+                      child: SingleChildScrollView(
+                        child: ListOfCharacterSpellsWidget(
+                          character: character,
+                        ),
                       ),
                     ),
                   ],
@@ -177,10 +179,12 @@ class _EditingCharacterWidgetState extends State<EditingCharacterWidget> {
               ),
             ],
           ),
-          SingleChildScrollView(
-            child: ListOfCharacterSpellsWidget(
-              character: widget.character,
-              isEditing: true,
+          Flexible(
+            child: SingleChildScrollView(
+              child: ListOfCharacterSpellsWidget(
+                character: widget.character,
+                isEditing: true,
+              ),
             ),
           ),
         ],
